@@ -1,4 +1,4 @@
-package de.joshiworld.claims;
+package de.joshiworld.main;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -7,13 +7,13 @@ public final class Claims extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        new InitStuff(this).init();
 
+        System.out.println(PREFIX + " §aClaims loaded..");
     }
 
     @Override
-    public void onDisable() {
-        // Plugin shutdown logic
-    }
+    public void onDisable() { }
 
 
 
