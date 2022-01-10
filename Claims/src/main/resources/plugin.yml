@@ -1,0 +1,7 @@
+name: Claims
+version: '${project.version}'
+main: de.joshiworld.claims.Claims
+api-version: 1.18
+prefix: Claims loaded..
+authors: [ JoshiWorld, AxellentAlex ]
+website: http://whomegalul.de/
