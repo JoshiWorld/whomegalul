@@ -6,6 +6,7 @@ public final class Bungee extends Plugin {
 
     @Override
     public void onEnable() {
+        //KEKW
         // Plugin startup logic
     }
 
