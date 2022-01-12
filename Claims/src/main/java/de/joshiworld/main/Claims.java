@@ -7,7 +7,9 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public final class Claims extends JavaPlugin {
     // GLOBAL PREFIX / SUFFIX
@@ -17,15 +19,16 @@ public final class Claims extends JavaPlugin {
     private Claims plugin;
     private LuckPerms luckperms;
 
-    // ArrayLists
+    // ArrayLists & HashMaps
     private List<Player> vanishList = new ArrayList<>();
+    private Map<Player, List<Long>> claimedChunks = new HashMap<>();
 
     @Override
     public void onEnable() {
-        plugin = this;
-        new InitStuff(plugin).init();
+        this.plugin = this;
+        new InitStuff(this.plugin).init();
 
-        System.out.println(PREFIX + " §aClaims loaded..");
+        System.out.println(getPrefix() + " §aClaims loaded..");
     }
 
     @Override
@@ -59,5 +62,10 @@ public final class Claims extends JavaPlugin {
     // Get Vanish-List
     public List<Player> getVanishList() {
         return vanishList;
+    }
+
+    // Get Claimed Chunks Map
+    public Map<Player, List<Long>> getClaimedChunks() {
+        return claimedChunks;
     }
 }

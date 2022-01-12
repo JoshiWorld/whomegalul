@@ -1,10 +1,12 @@
 package de.joshiworld.main;
 
+import de.joshiworld.claims.ChunkBlocks;
+import de.joshiworld.commands.ClaimCommand;
 import de.joshiworld.listeners.PlayerChatListener;
 import de.joshiworld.listeners.PlayerJoinListener;
 import de.joshiworld.listeners.PlayerQuitListener;
-import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 
@@ -25,7 +27,7 @@ public class InitStuff {
 
     // Init Commands
     private void initCommands() {
-
+        addCommand("claim", new ClaimCommand(this.plugin));
     }
 
 
@@ -34,6 +36,7 @@ public class InitStuff {
         addListener(new PlayerJoinListener(this.plugin));
         addListener(new PlayerQuitListener(this.plugin));
         addListener(new PlayerChatListener(this.plugin));
+        addListener(new ChunkBlocks(this.plugin));
     }
 
 
@@ -42,6 +45,11 @@ public class InitStuff {
     private void addListener(Listener listener) {
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(listener, this.plugin);
+    }
+
+    // Add Command
+    private void addCommand(String command, CommandExecutor commandExecutor) {
+        this.plugin.getCommand(command).setExecutor(commandExecutor);
     }
 
 }

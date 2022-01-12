@@ -9,3 +9,6 @@ depend:
   - LuckPerms
 
 commands:
+  claim:
+    description: Claims Command
+    usage: </claim>
