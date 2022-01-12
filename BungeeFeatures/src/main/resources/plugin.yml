@@ -1,0 +1,4 @@
+name: BukkitFeatures
+version: '${project.version}'
+api-version: 1.18
+main: de.joshiworld.bukkit.Bukkit
