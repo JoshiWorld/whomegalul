@@ -1,5 +1,6 @@
 package de.joshiworld.commands;
 
+import de.joshiworld.items.ClaimItems;
 import de.joshiworld.main.Claims;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -25,6 +26,8 @@ public class ClaimCommand implements CommandExecutor {
         Player player = (Player) sender;
 
         if(args[0].equalsIgnoreCase("create")) {
+            player.getInventory().addItem(ClaimItems.getClaimItem());
+
             createChunk(player);
         }
 

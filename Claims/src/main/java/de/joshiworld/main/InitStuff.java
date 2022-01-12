@@ -1,6 +1,7 @@
 package de.joshiworld.main;
 
 import de.joshiworld.claims.ChunkBlocks;
+import de.joshiworld.claims.ClaimBlocks;
 import de.joshiworld.commands.ClaimCommand;
 import de.joshiworld.listeners.PlayerChatListener;
 import de.joshiworld.listeners.PlayerJoinListener;
@@ -37,6 +38,7 @@ public class InitStuff {
         addListener(new PlayerQuitListener(this.plugin));
         addListener(new PlayerChatListener(this.plugin));
         addListener(new ChunkBlocks(this.plugin));
+        addListener(new ClaimBlocks(this.plugin));
     }
 
 
