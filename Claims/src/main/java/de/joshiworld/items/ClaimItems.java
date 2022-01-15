@@ -14,6 +14,7 @@ public class ClaimItems {
         meta.setCustomModelData(420);
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+        meta.setDisplayName("§eHurensohn");
         item.setItemMeta(meta);
         return item;
     }

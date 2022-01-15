@@ -2,15 +2,25 @@ package de.joshiworld.claims;
 
 import de.joshiworld.api.LuckPermsAPI;
 import de.joshiworld.main.Claims;
+import de.joshiworld.sql.ChunkData;
+import de.joshiworld.sql.PlayerData;
+import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPistonExtendEvent;
+import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 
+import javax.swing.text.html.Option;
+import java.util.Optional;
+
 public class ChunkBlocks implements Listener {
-    private Claims plugin;
-    private LuckPermsAPI luckperms;
+    private final Claims plugin;
+    private final LuckPermsAPI luckperms;
 
     public ChunkBlocks(Claims plugin) {
         this.plugin = plugin;
@@ -22,16 +32,9 @@ public class ChunkBlocks implements Listener {
     public void onBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
         Long chunk = event.getBlock().getChunk().getChunkKey();
+        PlayerData playerData = new PlayerData(player.getName(), this.plugin);
 
-        if(!this.plugin.getClaimedChunks().containsKey(player) || !this.plugin.getClaimedChunks().get(player).contains(chunk)) {
-            player.sendMessage(this.plugin.getPrefix() + " §cDieser Chunk gehört dir nicht!");
-            event.setCancelled(true);
-            return;
-        }
-
-        this.plugin.getClaimedChunks().get(player).forEach((li) -> {
-            player.sendMessage("§a" + li);
-        });
+        if(!checkBlock(player, chunk, playerData)) event.setCancelled(true);
     }
 
 
@@ -40,12 +43,63 @@ public class ChunkBlocks implements Listener {
     public void onPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
         Long chunk = event.getBlock().getChunk().getChunkKey();
+        PlayerData playerData = new PlayerData(player.getName(), this.plugin);
 
-        if(!this.plugin.getClaimedChunks().containsKey(player) || !this.plugin.getClaimedChunks().get(player).contains(chunk)) {
-            player.sendMessage(this.plugin.getPrefix() + " §cDieser Chunk gehört dir nicht!");
-            event.setCancelled(true);
-            return;
+        if(!checkBlock(player, chunk, playerData)) event.setCancelled(true);
+    }
+
+    // Check if chunk is claimed or trusted
+    private boolean checkBlock(Player player, Long chunk, PlayerData playerData) {
+        boolean isTrusted = playerData.getOtherClaims().stream().anyMatch(trusted -> {
+            PlayerData trustedData = new PlayerData(trusted, this.plugin);
+            return trustedData.getClaims().contains(chunk);
+        });
+
+        if(playerData.playerExists() && !playerData.getClaims().contains(chunk) && !isTrusted) {
+            if(!this.plugin.getClaimList().containsKey(player)) {
+                if(playerData.checkIfClaimed(chunk)) player.sendMessage(this.plugin.getPrefix() + " §cDieser Chunk gehört dir nicht!");
+                else player.sendMessage(this.plugin.getPrefix() + " §cDieser Chunk wurde noch nicht geclaimed!");
+            }
+            return false;
         }
+
+        return true;
+    }
+
+    // Prevent Pistons
+    @EventHandler
+    public void onPistonExtClaim(BlockPistonExtendEvent event) {
+        event.getBlocks().forEach((block) -> {
+            if(preventPistons(block)) event.setCancelled(true);
+        });
+    }
+
+    // Prevent Pistons
+    @EventHandler
+    public void onPistonRetClaim(BlockPistonRetractEvent event) {
+        event.getBlocks().forEach((block) -> {
+            if(preventPistons(block)) event.setCancelled(true);
+        });
+    }
+
+    // Prevent pistons
+    private boolean preventPistons(Block block) {
+        if(!checkClaimForPiston(block.getChunk().getChunkKey())) return false;
+
+        Optional<Player> playerOpt = (Optional<Player>) Bukkit.getOnlinePlayers().stream()
+                .filter(p -> p.getLocation().getChunk().getChunkKey() == block.getChunk().getChunkKey())
+                .findFirst();
+
+        if(!playerOpt.isPresent()) return false;
+
+        Player player = playerOpt.get();
+        PlayerData playerData = new PlayerData(player.getName(), this.plugin);
+        return playerData.getClaims().contains(block.getChunk().getChunkKey());
+    }
+
+    // Check Chunk
+    private boolean checkClaimForPiston(Long chunk) {
+        return new ChunkData(chunk, this.plugin).checkBlockForChunk();
     }
 
 }
