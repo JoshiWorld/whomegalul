@@ -1,4 +1,8 @@
 name: BukkitFeatures
 version: '${project.version}'
 api-version: 1.18
-main: de.joshiworld.bukkit.Bukkit
+main: de.joshiworld.bukkit.Paper
+commands:
+  sethome:
+    description: set a new home Location
+    usage: /sethome <Homename>

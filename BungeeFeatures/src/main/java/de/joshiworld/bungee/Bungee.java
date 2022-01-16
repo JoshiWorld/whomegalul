@@ -3,7 +3,10 @@ package de.joshiworld.bungee;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
+import de.joshiworld.bungee.commands.deletehome;
 import de.joshiworld.bungee.commands.home;
+import de.joshiworld.bungee.commands.homes;
+import de.joshiworld.bungee.events.onPluginMessage;
 import de.joshiworld.sql.MySQL;
 import de.joshiworld.sql.SQLGetter;
 import net.md_5.bungee.api.ProxyServer;
@@ -28,6 +31,7 @@ public final class Bungee extends Plugin implements Listener {
 
     @Override
     public void onEnable() {
+        instance = this;
         //SQL Setup
         this.SQL = new MySQL();
         this.data = new SQLGetter(this);
@@ -41,8 +45,13 @@ public final class Bungee extends Plugin implements Listener {
             data.createTable();
             getProxy().getPluginManager().registerListener(this, this);
         }
+
         //Commands and Listeners
+        getProxy().getPluginManager().registerCommand(this, new deletehome());
         getProxy().getPluginManager().registerCommand(this, new home());
+        getProxy().getPluginManager().registerCommand(this, new homes());
+
+        getProxy().getPluginManager().registerListener(this,new onPluginMessage());
         //Plugin Message
         getProxy().registerChannel( "BungeeCord" );
 
@@ -54,7 +63,7 @@ public final class Bungee extends Plugin implements Listener {
         SQL.disconnect();
     }
 
-    public static void sendCustomData(String SubChannel, ProxiedPlayer player, String data)
+    public static void sendCustomData(String SubChannel, ProxiedPlayer player, String data, String data2)
     {
         String uuid = String.valueOf(player.getUniqueId());
         Collection<ProxiedPlayer> networkPlayers = ProxyServer.getInstance().getPlayers();
@@ -63,26 +72,9 @@ public final class Bungee extends Plugin implements Listener {
         out.writeUTF( SubChannel );
         out.writeUTF( uuid );
         out.writeUTF( data );
-
+        out.writeUTF( data2 );
         player.getServer().getInfo().sendData( "BungeeCord", out.toByteArray() );
     }
 
-    @EventHandler
-    public void on(PluginMessageEvent event)
-    {
-        if ( !event.getTag().equalsIgnoreCase( "BungeeCord" ) )return;
-        ByteArrayDataInput in = ByteStreams.newDataInput( event.getData() );
-        String subChannel = in.readUTF();
-        if ( subChannel.equalsIgnoreCase( "ServerMessage" ) )
-        {
-            if ( event.getReceiver() instanceof ProxiedPlayer )
-            {
-                ProxiedPlayer receiver = (ProxiedPlayer) event.getReceiver();
-            }
-            if ( event.getReceiver() instanceof Server)
-            {
-                Server receiver = (Server) event.getReceiver();
-            }
-        }
-    }
+
 }
