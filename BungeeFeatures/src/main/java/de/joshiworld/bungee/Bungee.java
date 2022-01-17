@@ -3,9 +3,7 @@ package de.joshiworld.bungee;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import de.joshiworld.bungee.commands.deletehome;
-import de.joshiworld.bungee.commands.home;
-import de.joshiworld.bungee.commands.homes;
+import de.joshiworld.bungee.commands.*;
 import de.joshiworld.bungee.events.onPluginMessage;
 import de.joshiworld.sql.MySQL;
 import de.joshiworld.sql.SQLGetter;
@@ -50,6 +48,8 @@ public final class Bungee extends Plugin implements Listener {
         getProxy().getPluginManager().registerCommand(this, new deletehome());
         getProxy().getPluginManager().registerCommand(this, new home());
         getProxy().getPluginManager().registerCommand(this, new homes());
+        getProxy().getPluginManager().registerCommand(this, new warp());
+        getProxy().getPluginManager().registerCommand(this, new deletewarp());
 
         getProxy().getPluginManager().registerListener(this,new onPluginMessage());
         //Plugin Message

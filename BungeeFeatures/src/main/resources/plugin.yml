@@ -6,3 +6,6 @@ commands:
   sethome:
     description: set a new home Location
     usage: /sethome <Homename>
+  setwarp:
+    description: set a new warp Location
+    usage: /setwarp <warpname>

@@ -14,7 +14,7 @@ public class deletehome extends Command {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if(sender instanceof ProxiedPlayer){
+        if(!(sender instanceof ProxiedPlayer)) return;
             ProxiedPlayer player = (ProxiedPlayer) sender;
             String uuid = player.getUniqueId().toString();
             if(args.length==0) {
@@ -22,11 +22,11 @@ public class deletehome extends Command {
                 return;
             }
             if(Bungee.getInstance().data.searchHome(uuid,args[0])){
-                Bungee.getInstance().data.deleteHome(player.getUniqueId().toString(),args[0]);
+                Bungee.getInstance().data.deleteHome(uuid,args[0]);
                 player.sendMessage(new TextComponent(ChatColor.RED.toString()+"Home deleted Successfully"));
                 return;
             }
             player.sendMessage(new TextComponent(ChatColor.RED.toString()+"Could not find Home with given name"));
-        }
+
     }
 }

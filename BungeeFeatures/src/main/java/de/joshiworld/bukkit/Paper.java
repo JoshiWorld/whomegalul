@@ -4,6 +4,7 @@ package de.joshiworld.bukkit;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import de.joshiworld.bukkit.commands.PaperHomes;
+import de.joshiworld.bukkit.commands.setwarp;
 import de.joshiworld.bukkit.listener.onPluginMessage;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -16,6 +17,7 @@ public final class Paper extends JavaPlugin implements Listener{
     public void onEnable() {
         plugin = this;
         getCommand("sethome").setExecutor(new PaperHomes());
+        getCommand("setwarp").setExecutor(new setwarp());
 
         getServer().getMessenger().registerIncomingPluginChannel( this, "BungeeCord",new onPluginMessage());
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");

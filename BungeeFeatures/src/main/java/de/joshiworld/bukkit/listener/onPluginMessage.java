@@ -21,13 +21,13 @@ public class onPluginMessage implements PluginMessageListener {
         if ( !channel.equalsIgnoreCase( "BungeeCord" ) ) return;
         ByteArrayDataInput in = ByteStreams.newDataInput( bytes );
         String subChannel = in.readUTF();
-        Bukkit.getLogger().info((subChannel + "|" + "homedata"));
         if ( subChannel.equalsIgnoreCase( "homedata" ) )
         {
 
             String playerID = in.readUTF();
             Location location = StringToLocation(in.readUTF());
-            if(!(Bukkit.getPlayer(UUID.fromString(playerID)) == null))return;
+            Bukkit.getLogger().info(playerID + " | "+ location);
+            if(Bukkit.getPlayer(UUID.fromString(playerID)) == null)return;
             Player User = Bukkit.getPlayer(UUID.fromString(playerID));
             User.teleport(location);
         }

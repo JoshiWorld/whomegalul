@@ -23,20 +23,31 @@ public class onPluginMessage implements Listener {
         if ( !event.getTag().equalsIgnoreCase( "BungeeCord" ) )return;
         ByteArrayDataInput in = ByteStreams.newDataInput( event.getData() );
         String subChannel = in.readUTF();
-        if ( subChannel.equalsIgnoreCase( "sethome" ) )
-        {
-            Server sender = (Server) event.getSender();
-            String serverName = sender.getInfo().getName();
-            String uuid = in.readUTF();
-            String homeName= in.readUTF();
-            String test = in.readUTF();
-            List<String> homes= data.getHomeNames(uuid);
-            if(homes.size()>=3){
-                ProxiedPlayer player = ProxyServer.getInstance().getPlayer(UUID.fromString(uuid));
-                player.sendMessage(new TextComponent(ChatColor.RED.toString()+ "You already have 3 Homes"));
-                return;
-            }
-            data.createHome(uuid,homeName,serverName,test);
+        Server sender = (Server) event.getSender();
+        String uuid = in.readUTF();
+        switch (subChannel) {
+            case "sethome":
+                onSethome(in,sender,uuid,data);
+                break;
+            case "setwarp":
+                onSethome(in,sender,"warp",data);
+                break;
         }
+
     }
+
+    public void onSethome(ByteArrayDataInput in,Server sender,String uuid, SQLGetter data){
+        String serverName = sender.getInfo().getName();
+        String homeName= in.readUTF();
+        String test = in.readUTF();
+        List<String> homes= data.getHomeNames(uuid);
+        if(homes.size()>=3){
+            ProxiedPlayer player = ProxyServer.getInstance().getPlayer(UUID.fromString(uuid));
+            player.sendMessage(new TextComponent(ChatColor.RED.toString()+ "You already have 3 Homes"));
+            return;
+        }
+        data.createHome(uuid,homeName,serverName,test);
+    }
+
+
 }
