@@ -12,3 +12,7 @@ commands:
   claim:
     description: Claims Command
     usage: </claim>
+  vanish:
+    description: Vanish player
+    usage: </vanish>
+    aliases: [v]

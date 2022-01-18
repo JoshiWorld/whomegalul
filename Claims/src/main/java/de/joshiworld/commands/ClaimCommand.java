@@ -21,12 +21,6 @@ public class ClaimCommand implements CommandExecutor {
         this.plugin = plugin;
     }
 
-    // claim create
-    // claim trust <player>
-    // claim untrust <player>
-    // claim clear
-    // claim edit
-
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if(!(sender instanceof Player))
@@ -43,10 +37,24 @@ public class ClaimCommand implements CommandExecutor {
             case "create":
                 if(this.plugin.getClaimList().containsKey(player)) {
                     createClaim(player);
+                    player.getInventory().remove(ClaimItems.getClaimItem());
+                    return true;
                 }
 
                 this.plugin.getClaimList().put(player, new ArrayList<Long>());
                 player.getInventory().addItem(ClaimItems.getClaimItem());
+                break;
+
+            // Create Claims
+            case "remove":
+                if(this.plugin.getClaimList().containsKey(player)) {
+                    removeClaim(player);
+                    player.getInventory().remove(ClaimItems.getClaimRemoveItem());
+                    return true;
+                }
+
+                this.plugin.getClaimList().put(player, new ArrayList<Long>());
+                player.getInventory().addItem(ClaimItems.getClaimRemoveItem());
                 break;
 
             // Trust
@@ -77,6 +85,7 @@ public class ClaimCommand implements CommandExecutor {
     private void sendHelp(Player player) {
         player.sendMessage("§7Alle Claim-Commands:");
         player.sendMessage("§a/claim create");
+        player.sendMessage("§a/claim remove");
         player.sendMessage("§a/claim trust <player>");
         player.sendMessage("§a/claim untrust <player>");
         player.sendMessage("§a/claim trustlist");
@@ -129,6 +138,54 @@ public class ClaimCommand implements CommandExecutor {
     }
     //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="/claim remove">
+    private void removeClaim(Player player) {
+        if(!finishClaimRemove(player)) player.sendMessage(this.plugin.getPrefix() + " §cDu löscht bereits einen Claim!");
+        else player.sendMessage(this.plugin.getPrefix() + " §cDu hast Claims removed!");
+    }
+
+    // Finish claim creation
+    private boolean finishClaimRemove(Player player) {
+        if(!isDoneCreatingRemove(player)) return false;
+
+        removeChunk(player);
+        return true;
+    }
+
+    // Is done creating claim?
+    private boolean isDoneCreatingRemove(Player player) {
+        return !this.plugin.getClaimList().get(player).isEmpty() &&
+                this.plugin.getClaimList().get(player).size() == 2;
+    }
+
+    // Create
+    private void removeChunk(Player player) {
+        int firstX = player.getWorld().getChunkAt(this.plugin.getClaimList().get(player).get(0)).getX();
+        int firstZ = player.getWorld().getChunkAt(this.plugin.getClaimList().get(player).get(0)).getZ();
+        int secondX = player.getWorld().getChunkAt(this.plugin.getClaimList().get(player).get(1)).getX();
+        int secondZ = player.getWorld().getChunkAt(this.plugin.getClaimList().get(player).get(1)).getZ();
+
+        int[] xCount = {firstX, secondX};
+        Arrays.sort(xCount);
+
+        List<Long> chunks = new ArrayList<>();
+        for(int i = xCount[0]; i <= xCount[1]; i++) {
+            int[] zCount = {firstZ, secondZ};
+            Arrays.sort(zCount);
+
+            for(int j = zCount[0]; j <= zCount[1]; j++) {
+                chunks.add(player.getWorld().getChunkAt(i, j).getChunkKey());
+            }
+        }
+
+        PlayerData playerData = new PlayerData(player.getName(), this.plugin);
+        playerData.removeClaims(chunks);
+
+        this.plugin.getClaimList().remove(player);
+    }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="/claim trust">
     private void addTrust(Player player, Player target) {
         PlayerData playerData = new PlayerData(player.getName(), this.plugin);
         PlayerData targetData = new PlayerData(target.getName(), this.plugin);
@@ -176,5 +233,6 @@ public class ClaimCommand implements CommandExecutor {
         if(trusted.isEmpty()) player.sendMessage(this.plugin.getPrefix() + " §cDu hast keine Freunde!! HAHAHA");
         else player.sendMessage(this.plugin.getPrefix() + " §aTrusted Spieler: §e" + trusted.toString().substring(1, trusted.toString().length()-1));
     }
+    //</editor-fold>
 
 }

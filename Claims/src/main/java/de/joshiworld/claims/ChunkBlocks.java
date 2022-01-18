@@ -4,7 +4,6 @@ import de.joshiworld.api.LuckPermsAPI;
 import de.joshiworld.main.Claims;
 import de.joshiworld.sql.ChunkData;
 import de.joshiworld.sql.PlayerData;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -15,7 +14,6 @@ import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 public class ChunkBlocks implements Listener {

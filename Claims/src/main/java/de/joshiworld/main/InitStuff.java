@@ -3,6 +3,7 @@ package de.joshiworld.main;
 import de.joshiworld.claims.ChunkBlocks;
 import de.joshiworld.claims.ClaimBlocks;
 import de.joshiworld.commands.ClaimCommand;
+import de.joshiworld.commands.VanishCommand;
 import de.joshiworld.listeners.PlayerChatListener;
 import de.joshiworld.listeners.PlayerJoinListener;
 import de.joshiworld.listeners.PlayerQuitListener;
@@ -29,6 +30,7 @@ public class InitStuff {
     // Init Commands
     private void initCommands() {
         addCommand("claim", new ClaimCommand(this.plugin));
+        addCommand("vanish", new VanishCommand(this.plugin));
     }
 
 
