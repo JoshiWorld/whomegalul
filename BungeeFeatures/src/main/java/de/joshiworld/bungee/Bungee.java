@@ -1,19 +1,17 @@
 package de.joshiworld.bungee;
 
-import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import de.joshiworld.bungee.commands.*;
 import de.joshiworld.bungee.events.onPluginMessage;
 import de.joshiworld.sql.MySQL;
 import de.joshiworld.sql.SQLGetter;
+import net.luckperms.api.LuckPerms;
+import net.luckperms.api.LuckPermsProvider;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
-import net.md_5.bungee.api.connection.Server;
-import net.md_5.bungee.api.event.PluginMessageEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
-import net.md_5.bungee.event.EventHandler;
 
 import java.sql.SQLException;
 import java.util.Collection;
@@ -22,6 +20,7 @@ public final class Bungee extends Plugin implements Listener {
     private static Bungee instance;
     public MySQL SQL;
     public SQLGetter data;
+    public LuckPerms luckPerms;
 
     public static Bungee getInstance(){
         return instance;
@@ -29,6 +28,7 @@ public final class Bungee extends Plugin implements Listener {
 
     @Override
     public void onEnable() {
+        luckPerms = LuckPermsProvider.get();
         instance = this;
         //SQL Setup
         this.SQL = new MySQL();
@@ -50,9 +50,11 @@ public final class Bungee extends Plugin implements Listener {
         getProxy().getPluginManager().registerCommand(this, new homes());
         getProxy().getPluginManager().registerCommand(this, new warp());
         getProxy().getPluginManager().registerCommand(this, new deletewarp());
+        getProxy().getPluginManager().registerCommand(this, new warps());
+        getProxy().getPluginManager().registerCommand(this, new bungeeban());
+        getProxy().getPluginManager().registerCommand(this, new bungeeunban());
 
         getProxy().getPluginManager().registerListener(this,new onPluginMessage());
-        //Plugin Message
         getProxy().registerChannel( "BungeeCord" );
 
         getLogger().info("is ready");
@@ -75,6 +77,5 @@ public final class Bungee extends Plugin implements Listener {
         out.writeUTF( data2 );
         player.getServer().getInfo().sendData( "BungeeCord", out.toByteArray() );
     }
-
 
 }
