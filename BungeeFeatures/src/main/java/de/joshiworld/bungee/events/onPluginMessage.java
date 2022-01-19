@@ -32,6 +32,9 @@ public class onPluginMessage implements Listener {
             case "setwarp":
                 onSethome(in,sender,"warp",data);
                 break;
+            case "Serverswitch":
+                onServerswitch(in,uuid);
+                break;
         }
 
     }
@@ -48,6 +51,10 @@ public class onPluginMessage implements Listener {
         }
         data.createHome(uuid,homeName,serverName,test);
     }
-
+    public void onServerswitch(ByteArrayDataInput in,String uuid){
+        String server= in.readUTF();
+        ProxiedPlayer player = ProxyServer.getInstance().getPlayer(UUID.fromString(uuid));
+        player.connect(ProxyServer.getInstance().getServerInfo(server));
+    }
 
 }

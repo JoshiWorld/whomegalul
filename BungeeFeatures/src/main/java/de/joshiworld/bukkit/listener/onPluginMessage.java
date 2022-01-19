@@ -23,7 +23,6 @@ public class onPluginMessage implements PluginMessageListener {
         String subChannel = in.readUTF();
         if ( subChannel.equalsIgnoreCase( "homedata" ) )
         {
-
             String playerID = in.readUTF();
             Location location = StringToLocation(in.readUTF());
             Bukkit.getLogger().info(playerID + " | "+ location);

@@ -4,7 +4,9 @@ package de.joshiworld.bukkit;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import de.joshiworld.bukkit.commands.PaperHomes;
+import de.joshiworld.bukkit.commands.setportal;
 import de.joshiworld.bukkit.commands.setwarp;
+import de.joshiworld.bukkit.listener.npcInteract;
 import de.joshiworld.bukkit.listener.onPrejoin;
 import de.joshiworld.bukkit.listener.onPluginMessage;
 import de.joshiworld.sql.MySQL;
@@ -47,7 +49,9 @@ public final class Paper extends JavaPlugin implements Listener{
         plugin = this;
         getCommand("sethome").setExecutor(new PaperHomes());
         getCommand("setwarp").setExecutor(new setwarp());
+        getCommand("setportal").setExecutor(new setportal());
         getServer().getPluginManager().registerEvents(new onPrejoin(), this);
+        getServer().getPluginManager().registerEvents(new npcInteract(), this);
 
         getServer().getMessenger().registerIncomingPluginChannel( this, "BungeeCord",new onPluginMessage());
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");

@@ -58,7 +58,7 @@ public class home extends Command {
 
         final String location = templocation;
         Bungee.getInstance().getLogger().info(location);
-        //add delay for server switch+
+        //add delay for server switch
         ProxyServer.getInstance().getScheduler().schedule(Bungee.getInstance(), new Runnable() {
             public void run() {
             Bungee.sendCustomData("homedata",player,location,"");

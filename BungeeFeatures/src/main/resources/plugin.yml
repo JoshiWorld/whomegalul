@@ -4,6 +4,7 @@ api-version: 1.18
 main: de.joshiworld.bukkit.Paper
 depend:
   - LuckPerms
+  - Citizens
 commands:
   sethome:
     description: set a new home Location
@@ -11,3 +12,6 @@ commands:
   setwarp:
     description: set a new warp Location
     usage: /setwarp <warpname>
+  setportal:
+    description: set a new warp Location
+    usage: /setportal <NPCName> <Server>

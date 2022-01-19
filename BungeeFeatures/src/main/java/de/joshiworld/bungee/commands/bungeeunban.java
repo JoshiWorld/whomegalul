@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 public class bungeeunban extends Command {
     public bungeeunban() {
-        super("bungeeunban");
+        super("bungeeunban","bungeefeatures.ban");
     }
     private final LuckPermsAPI luckPerms= new LuckPermsAPI(Bungee.getInstance());
 
