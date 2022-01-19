@@ -2,6 +2,8 @@ name: BukkitFeatures
 version: '${project.version}'
 api-version: 1.18
 main: de.joshiworld.bukkit.Paper
+depend:
+  - LuckPerms
 commands:
   sethome:
     description: set a new home Location

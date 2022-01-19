@@ -28,8 +28,8 @@ public final class Bungee extends Plugin implements Listener {
 
     @Override
     public void onEnable() {
-        luckPerms = LuckPermsProvider.get();
         instance = this;
+        luckPerms = LuckPermsProvider.get();
         //SQL Setup
         this.SQL = new MySQL();
         this.data = new SQLGetter(this);

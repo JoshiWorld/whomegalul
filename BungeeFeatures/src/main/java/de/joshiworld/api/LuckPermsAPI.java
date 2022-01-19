@@ -1,9 +1,9 @@
 package de.joshiworld.api;
 
 
+import de.joshiworld.bukkit.Paper;
 import de.joshiworld.bungee.Bungee;
 import net.luckperms.api.LuckPerms;
-import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.model.group.Group;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.NodeType;
@@ -16,12 +16,17 @@ import java.util.stream.Collectors;
 
 public class LuckPermsAPI {
     private Bungee plugin;
+    private Paper paplugin;
     private LuckPerms luckPerms;
+
     public LuckPermsAPI(Bungee plugin) {
         this.plugin = plugin;
         this.luckPerms=this.plugin.luckPerms;
     }
-
+    public LuckPermsAPI(Paper plugin) {
+        this.paplugin = plugin;
+        this.luckPerms=this.paplugin.luckPerms;
+    }
     // Get User
     public User getUser(String player) {
         return luckPerms.getUserManager().getUser(player);
@@ -48,12 +53,12 @@ public class LuckPermsAPI {
 
     // Get Group Permission
     public boolean hasPermissionGroup(String permission, String player) {
-        Set<String> permissions = getGroup(getUser(player).getPrimaryGroup()).getNodes(NodeType.PERMISSION).stream().map(PermissionNode::getPermission).collect(Collectors.toSet());
+        Set<String> permissions = getGroup(player).getNodes(NodeType.PERMISSION).stream().map(PermissionNode::getPermission).collect(Collectors.toSet());
         if(permissions.contains(permission)) return true;
         else return false;
     }
     public boolean hasPermissionGroup(String permission, UUID uuid) {
-        Set<String> permissions = getGroup(getUser(uuid).getPrimaryGroup()).getNodes(NodeType.PERMISSION).stream().map(PermissionNode::getPermission).collect(Collectors.toSet());
+        Set<String> permissions = getGroup(uuid).getNodes(NodeType.PERMISSION).stream().map(PermissionNode::getPermission).collect(Collectors.toSet());
         if(permissions.contains(permission)) return true;
         else return false;
     }
