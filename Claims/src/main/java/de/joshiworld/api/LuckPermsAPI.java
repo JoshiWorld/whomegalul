@@ -6,7 +6,6 @@ import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.NodeType;
 import net.luckperms.api.node.types.PermissionNode;
 import net.luckperms.api.node.types.PrefixNode;
-import org.bukkit.entity.Player;
 
 import java.util.Set;
 import java.util.UUID;
@@ -45,13 +44,13 @@ public class LuckPermsAPI {
 
     // Get Group Permission
     public boolean hasPermissionGroup(String permission, String player) {
-        Set<String> permissions = getGroup(getUser(player).getPrimaryGroup()).getNodes(NodeType.PERMISSION).stream().map(PermissionNode::getPermission).collect(Collectors.toSet());
-        if(permissions.contains(permission)) return true;
+        Set<String> permissions = getGroup(player).getNodes(NodeType.PERMISSION).stream().map(PermissionNode::getPermission).collect(Collectors.toSet());
+        if(permissions.contains(permission) || permissions.contains("*")) return true;
         else return false;
     }
     public boolean hasPermissionGroup(String permission, UUID uuid) {
-        Set<String> permissions = getGroup(getUser(uuid).getPrimaryGroup()).getNodes(NodeType.PERMISSION).stream().map(PermissionNode::getPermission).collect(Collectors.toSet());
-        if(permissions.contains(permission)) return true;
+        Set<String> permissions = getGroup(uuid).getNodes(NodeType.PERMISSION).stream().map(PermissionNode::getPermission).collect(Collectors.toSet());
+        if(permissions.contains(permission) || permissions.contains("*")) return true;
         else return false;
     }
 

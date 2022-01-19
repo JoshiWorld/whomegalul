@@ -2,11 +2,10 @@ name: Claims
 version: '${project.version}'
 main: de.joshiworld.main.Claims
 api-version: 1.18
-prefix: Claims loaded..
+prefix: Claims
 authors: [ JoshiWorld, AxellentAlex ]
 website: http://whomegalul.de/
-depend:
-  - LuckPerms
+depend: [Citizens, LuckPerms]
 
 commands:
   claim:

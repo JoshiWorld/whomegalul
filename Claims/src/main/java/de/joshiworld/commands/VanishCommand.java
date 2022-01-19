@@ -5,6 +5,7 @@ import de.joshiworld.main.Claims;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -40,6 +41,8 @@ public class VanishCommand implements CommandExecutor {
             players.hidePlayer(this.plugin, player);
         });
 
+        player.setGameMode(GameMode.SPECTATOR);
+
         String quit = "§7[§c-§7] " + ChatColor.translateAlternateColorCodes('&', this.luckPerms.getGroupPrefix(player.getName())) + player.getName();
         Bukkit.broadcast(new TextComponent(quit));
     }
@@ -49,6 +52,8 @@ public class VanishCommand implements CommandExecutor {
         Bukkit.getOnlinePlayers().forEach(players -> {
             players.showPlayer(this.plugin, player);
         });
+
+        player.setGameMode(GameMode.SURVIVAL);
 
         String quit = "§7[§a+§7] " + ChatColor.translateAlternateColorCodes('&', this.luckPerms.getGroupPrefix(player.getName())) + player.getName();
         Bukkit.broadcast(new TextComponent(quit));

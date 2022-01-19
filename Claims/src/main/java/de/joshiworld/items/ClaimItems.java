@@ -11,7 +11,6 @@ public class ClaimItems {
         ItemStack item = new ItemStack(Material.GOLDEN_SHOVEL);
         ItemMeta meta = item.getItemMeta();
         meta.setUnbreakable(true);
-        meta.setCustomModelData(420);
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
         meta.setDisplayName("§eClaim-Schaufel");
@@ -23,10 +22,20 @@ public class ClaimItems {
         ItemStack item = new ItemStack(Material.GOLDEN_SHOVEL);
         ItemMeta meta = item.getItemMeta();
         meta.setUnbreakable(true);
-        meta.setCustomModelData(421);
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
         meta.setDisplayName("§cClaim löschen");
+        item.setItemMeta(meta);
+        return item;
+    }
+
+    public static ItemStack getAdminClaimItem() {
+        ItemStack item = new ItemStack(Material.STICK);
+        ItemMeta meta = item.getItemMeta();
+        meta.setUnbreakable(true);
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+        meta.setDisplayName("§cADMIN CLAIM");
         item.setItemMeta(meta);
         return item;
     }

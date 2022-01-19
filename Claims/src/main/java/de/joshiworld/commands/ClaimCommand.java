@@ -1,7 +1,9 @@
 package de.joshiworld.commands;
 
+import de.joshiworld.api.LuckPermsAPI;
 import de.joshiworld.items.ClaimItems;
 import de.joshiworld.main.Claims;
+import de.joshiworld.sql.ChunkData;
 import de.joshiworld.sql.PlayerData;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -16,9 +18,11 @@ import java.util.List;
 
 public class ClaimCommand implements CommandExecutor {
     private final Claims plugin;
+    private final LuckPermsAPI luckPerms;
 
     public ClaimCommand(Claims plugin) {
         this.plugin = plugin;
+        this.luckPerms = new LuckPermsAPI(this.plugin);
     }
 
     @Override
@@ -71,6 +75,14 @@ public class ClaimCommand implements CommandExecutor {
             case "trustlist":
                 sendTrustlist(player);
                 break;
+            case "clear":
+                if(!this.luckPerms.hasPermissionGroup("claims.claims", player.getName())) return true;
+                clearClaim(player, args[1]);
+                break;
+            case "showup":
+                if(!this.luckPerms.hasPermissionGroup("claims.claims", player.getName())) return true;
+                showClaim(player);
+                break;
 
             // DEFAULT
             default:
@@ -89,6 +101,34 @@ public class ClaimCommand implements CommandExecutor {
         player.sendMessage("§a/claim trust <player>");
         player.sendMessage("§a/claim untrust <player>");
         player.sendMessage("§a/claim trustlist");
+
+        if(this.luckPerms.hasPermissionGroup("claims.claims", player.getName())) {
+            player.sendMessage("§c/claim clear <player>");
+            player.sendMessage("§c/claim showup");
+        }
+    }
+
+    // Clear claim
+    private void clearClaim(Player player, String target) {
+        PlayerData targetData = new PlayerData(target, this.plugin);
+        List<Long> claims = targetData.getClaims();
+
+        if(claims.isEmpty()) {
+            player.sendMessage(this.plugin.getPrefix() + " §cDieser Spieler besitzt keine Claims!");
+            return;
+        }
+
+        claims.clear();
+        targetData.setClaims(claims);
+        player.sendMessage(this.plugin.getPrefix() + " §aClaims wurden removed!");
+    }
+
+    // Showup Claim
+    private void showClaim(Player player) {
+        Long chunk = player.getLocation().getChunk().getChunkKey();
+        ChunkData chunkData = new ChunkData(chunk, this.plugin);
+
+        player.sendMessage(this.plugin.getPrefix() + " §aDieser Chunk gehört: §e" + chunkData.lookupChunkOwner());
     }
 
     //<editor-fold defaultstate="collapsed" desc="/claim create">
@@ -132,7 +172,7 @@ public class ClaimCommand implements CommandExecutor {
         }
 
         PlayerData playerData = new PlayerData(player.getName(), this.plugin);
-        playerData.setClaims(chunks);
+        playerData.addClaims(chunks);
 
         this.plugin.getClaimList().remove(player);
     }

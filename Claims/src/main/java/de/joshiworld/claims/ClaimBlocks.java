@@ -1,5 +1,6 @@
 package de.joshiworld.claims;
 
+import de.joshiworld.items.ClaimItems;
 import de.joshiworld.main.Claims;
 import de.joshiworld.sql.PlayerData;
 import org.bukkit.Material;
@@ -41,7 +42,7 @@ public class ClaimBlocks implements Listener {
     private boolean checkClaimItem(Player player) {
         if(!(this.plugin.getClaimList().containsKey(player)) ||
                 (player.getItemInHand().getType().equals(Material.AIR)) ||
-                !(player.getItemInHand().getItemMeta().getCustomModelData() == 420)
+                !(player.getItemInHand().getItemMeta().equals(ClaimItems.getClaimItem().getItemMeta()))
         ) {
             return false;
         }
@@ -52,7 +53,7 @@ public class ClaimBlocks implements Listener {
     private boolean checkClaimRemoveItem(Player player) {
         if(!(this.plugin.getClaimList().containsKey(player)) ||
                 (player.getItemInHand().getType().equals(Material.AIR)) ||
-                !(player.getItemInHand().getItemMeta().getCustomModelData() == 421)
+                !(player.getItemInHand().getItemMeta().equals(ClaimItems.getClaimRemoveItem().getItemMeta()))
         ) {
             return false;
         }
@@ -81,7 +82,7 @@ public class ClaimBlocks implements Listener {
         if(event.getAction().isLeftClick()) set = 1;
 
         List<Long> list = this.plugin.getClaimList().get(player);
-        if(list.size() > 0) {
+        if(list.size() > 1) {
             list.set(set, event.getClickedBlock().getChunk().getChunkKey());
             player.sendMessage(this.plugin.getPrefix() + " §aWenn du dir sicher bist, dann bestätige mit: §e/claim create");
         } else {
@@ -113,7 +114,7 @@ public class ClaimBlocks implements Listener {
         if(event.getAction().isLeftClick()) set = 1;
 
         List<Long> list = this.plugin.getClaimList().get(player);
-        if(list.size() > 0) {
+        if(list.size() > 1) {
             list.set(set, event.getClickedBlock().getChunk().getChunkKey());
             player.sendMessage(this.plugin.getPrefix() + " §aWenn du dir sicher bist, dann bestätige mit: §e/claim remove");
         } else {

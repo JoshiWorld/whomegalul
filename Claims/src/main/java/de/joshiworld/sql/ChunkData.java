@@ -6,9 +6,8 @@ import org.bukkit.Bukkit;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ChunkData {
     private final Long chunk;
@@ -42,6 +41,9 @@ public class ChunkData {
             tempList.addAll(Arrays.asList(claimsArray));
 
             List<Long> finalList = new ArrayList<>();
+
+            if(tempList.isEmpty()) return false;
+
             tempList.forEach(all -> {
                 String[] array = all.substring(1, all.length()-1).split(", ");
 
@@ -60,44 +62,28 @@ public class ChunkData {
 
 
 
-
-/*
-    public List<Long> getClaims() {
-        List<Long> claims = null;
-
-        if(!playerExists()) {
-            createPlayer();
-            getClaims();
-        }
+    // Lookup Chunk Owner
+    public String lookupChunkOwner() {
+        String owner = null;
 
         try {
-            ResultSet resultSet = this.plugin.getMySQL().query("SELECT * FROM who WHERE PLAYER= '" + this.player + "'");
+            ResultSet resultSet = this.plugin.getMySQL().query("SELECT * FROM who");
+            List<String> players = new ArrayList<>();
 
-            if(resultSet.next()) {
-                resultSet.getString("CLAIMS");
-            }
-
-            if(resultSet.getString("CLAIMS").isEmpty()) {
-                claims = new ArrayList<Long>();
-            } else {
-                int maxL = resultSet.getString("CLAIMS").length()-1;
-                String[] claimsArray = resultSet.getString("CLAIMS").substring(1, maxL).split(", ");
-                List<Long> tempList = new ArrayList<>();
-
-                for (String s : claimsArray) {
-                    tempList.add(Long.valueOf(s));
+            while(resultSet.next()) {
+                if(!resultSet.getString("PLAYER").isEmpty()) {
+                    players.add(resultSet.getString("PLAYER"));
                 }
-
-                claims = tempList;
             }
 
-            resultSet.close();
+            Optional<String> tempPlayer = players.stream().filter(player -> !new PlayerData(player, this.plugin).getClaims().isEmpty())
+                    .collect(Collectors.toList()).stream().filter(player -> new PlayerData(player, this.plugin).getClaims().contains(chunk)).findFirst();
+            if(tempPlayer.isPresent()) owner = tempPlayer.get();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return claims;
+        return owner;
     }
-*/
 
 }

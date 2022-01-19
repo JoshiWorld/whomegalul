@@ -118,6 +118,9 @@ public class PlayerData {
                 claims = new ArrayList<Long>();
             } else {
                 int maxL = resultSet.getString("CLAIMS").length()-1;
+
+                if(resultSet.getString("CLAIMS").isEmpty() || resultSet.getString("CLAIMS").contains("[]") || resultSet.getString("CLAIMS").contains("[ ]"))
+                    return new ArrayList<Long>();
                 String[] claimsArray = resultSet.getString("CLAIMS").substring(1, maxL).split(", ");
                 List<Long> tempList = new ArrayList<>();
 
