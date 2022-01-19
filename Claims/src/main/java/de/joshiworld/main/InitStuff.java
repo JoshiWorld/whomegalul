@@ -52,9 +52,9 @@ public class InitStuff {
 
     // Init Listeners
     private void initListeners() {
-        addListener(new PlayerJoinListener(this.plugin));
+        //addListener(new PlayerJoinListener(this.plugin));
         addListener(new PlayerQuitListener(this.plugin));
-        addListener(new PlayerChatListener(this.plugin));
+        //addListener(new PlayerChatListener(this.plugin));
         addListener(new ChunkBlocks(this.plugin));
         addListener(new ClaimBlocks(this.plugin));
         addListener(new AdminShopListener(this.plugin));

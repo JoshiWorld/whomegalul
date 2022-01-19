@@ -28,7 +28,7 @@ public class PlayerQuitListener implements Listener {
         removeClaimItems(player);
 
         String message = "§7[§c-§7] " + ChatColor.translateAlternateColorCodes('&', this.luckperms.getGroupPrefix(player.getName())) + player.getName();
-        event.setQuitMessage(message);
+        //event.setQuitMessage(message);
     }
 
 
