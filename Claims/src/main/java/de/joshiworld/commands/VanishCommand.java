@@ -37,6 +37,8 @@ public class VanishCommand implements CommandExecutor {
 
     // Vanish
     private void vanishPlayer(Player player) {
+        this.plugin.getVanishList().add(player);
+
         Bukkit.getOnlinePlayers().forEach(players -> {
             players.hidePlayer(this.plugin, player);
         });
@@ -49,13 +51,15 @@ public class VanishCommand implements CommandExecutor {
 
     // Unvanish
     private void unVanishPlayer(Player player) {
+        this.plugin.getVanishList().remove(player);
+
         Bukkit.getOnlinePlayers().forEach(players -> {
             players.showPlayer(this.plugin, player);
         });
 
         player.setGameMode(GameMode.SURVIVAL);
 
-        String quit = "§7[§a+§7] " + ChatColor.translateAlternateColorCodes('&', this.luckPerms.getGroupPrefix(player.getName())) + player.getName();
-        Bukkit.broadcast(new TextComponent(quit));
+        String join = "§7[§a+§7] " + ChatColor.translateAlternateColorCodes('&', this.luckPerms.getGroupPrefix(player.getName())) + player.getName();
+        Bukkit.broadcast(new TextComponent(join));
     }
 }

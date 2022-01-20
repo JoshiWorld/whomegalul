@@ -54,7 +54,7 @@ public final class Claims extends JavaPlugin {
     // Connect SQL
     private void connectSQL() {
         mysql = new MySQL("localhost", "who", "123whoMEGALUL?", "who");
-        mysql.update("CREATE TABLE IF NOT EXISTS who(PLAYER varchar(64), MONEY int, CLAIMS varchar(8000), TRUSTED varchar(1000), OTHERCLAIMS varchar(1000))");
+        mysql.update("CREATE TABLE IF NOT EXISTS who(PLAYER varchar(64), MONEY int, CLAIMS varchar(8000), TRUSTED varchar(1000), OTHERCLAIMS varchar(1000), INV varchar(8000), ARMOR varchar(8000), STORAGE varchar(8000), ENDER varchar(8000), ENDERSTORE varchar(8000))");
     }
 
     // Prefix Getter

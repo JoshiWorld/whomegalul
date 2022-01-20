@@ -1,7 +1,7 @@
 package de.joshiworld.main;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import de.joshiworld.commands.MoneyCommand;
+import de.joshiworld.listeners.EnderChestListener;
 import de.joshiworld.listeners.PlayerChatListener;
 import de.joshiworld.listeners.PlayerJoinListener;
 import de.joshiworld.listeners.PlayerQuitListener;
@@ -27,7 +27,7 @@ public class InitStuff {
 
     // Init Commands
     private void initCommands() {
-
+        addCommand("money", new MoneyCommand(this.plugin));
     }
 
 
@@ -36,6 +36,7 @@ public class InitStuff {
         addListener(new PlayerQuitListener(this.plugin));
         addListener(new PlayerChatListener(this.plugin));
         addListener(new PlayerJoinListener(this.plugin));
+        addListener(new EnderChestListener(this.plugin));
     }
 
 
