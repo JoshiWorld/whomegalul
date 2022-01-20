@@ -1,0 +1,9 @@
+name: Lobby
+version: '${project.version}'
+main: de.joshiworld.main.Lobby
+api-version: 1.18
+prefix: Lobby
+depend: [ LuckPerms ]
+authors: [ JoshiWorld ]
+description: Lobby Plugin
+website: https://whomegalul.de/
