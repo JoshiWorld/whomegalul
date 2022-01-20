@@ -7,3 +7,8 @@ depend: [ LuckPerms ]
 authors: [ JoshiWorld ]
 description: Lobby Plugin
 website: https://whomegalul.de/
+
+commands:
+  bau:
+    usage: </bau>
+    description: Bau Command

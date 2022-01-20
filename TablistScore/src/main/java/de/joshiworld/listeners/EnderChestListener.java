@@ -24,7 +24,7 @@ public class EnderChestListener implements Listener {
     public void onEnderChest(PlayerInteractEvent event) {
         Player player = event.getPlayer();
 
-        if(!event.getClickedBlock().getType().equals(Material.ENDER_CHEST) || !event.getAction().equals(Action.RIGHT_CLICK_BLOCK) || event.getClickedBlock() == null) return;
+        if(event.getClickedBlock() == null || !event.getClickedBlock().getType().equals(Material.ENDER_CHEST) || !event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) return;
         event.setCancelled(true);
 
         PlayerData playerData = new PlayerData(player.getName(), this.plugin);
