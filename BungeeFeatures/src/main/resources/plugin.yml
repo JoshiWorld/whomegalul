@@ -1,7 +1,7 @@
 name: BukkitFeatures
 version: '${project.version}'
 api-version: 1.18
-main: de.joshiworld.bukkit.Paper
+main: de.joshiworld.bukkit.main.Paper
 depend:
   - LuckPerms
   - Citizens
@@ -10,8 +10,10 @@ commands:
     description: set a new home Location
     usage: /sethome <Homename>
   setwarp:
+    permission: bungeefeatures.warp
     description: set a new warp Location
     usage: /setwarp <warpname>
   setportal:
+    permission: bungeefeatures.portal
     description: set a new warp Location
     usage: /setportal <NPCName> <Server>

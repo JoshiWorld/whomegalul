@@ -1,7 +1,7 @@
 package de.joshiworld.bungee.commands;
 
 import de.joshiworld.api.LuckPermsAPI;
-import de.joshiworld.bungee.Bungee;
+import de.joshiworld.bungee.main.Bungee;
 import de.joshiworld.sql.SQLGetter;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
@@ -15,7 +15,7 @@ import java.util.UUID;
 
 public class bungeeban extends Command {
     public bungeeban() {
-        super("bungeeban");
+        super("bungeeban","bungeefeatures.ban");
     }
     private final LuckPermsAPI luckPerms= new LuckPermsAPI(Bungee.getInstance());
 

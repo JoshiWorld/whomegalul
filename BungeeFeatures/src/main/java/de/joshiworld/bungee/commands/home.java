@@ -1,27 +1,20 @@
 package de.joshiworld.bungee.commands;
 
-import de.joshiworld.bukkit.Paper;
-import de.joshiworld.bungee.Bungee;
-import de.joshiworld.bungee.interfaces.LocationInterface;
+import de.joshiworld.bungee.main.Bungee;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
+import net.md_5.bungee.api.plugin.TabExecutor;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
-public class home extends Command {
+public class home extends Command implements TabExecutor {
     public home() {
         super("home");
     }
@@ -29,10 +22,9 @@ public class home extends Command {
     @Override
     public void execute(CommandSender sender, String[] args) {
         if (!(sender instanceof ProxiedPlayer)) return;
+        ProxiedPlayer player = (ProxiedPlayer) sender;
         String server="lobby";
         String templocation="KEKW187QDH";
-
-        ProxiedPlayer player = (ProxiedPlayer) sender;
         final String home = getHomeName(args, player);
         if (home == null) return;
 
@@ -78,5 +70,10 @@ public class home extends Command {
         return home;
     }
 
-
+    @Override
+    public Iterable<String> onTabComplete(CommandSender sender, String[] args) {
+        if(!(sender instanceof ProxiedPlayer)) return Collections.<String>emptyList();
+        ProxiedPlayer player = (ProxiedPlayer) sender;
+        return Bungee.getInstance().data.getHomeNames(player.getUniqueId().toString());
+    }
 }

@@ -1,19 +1,20 @@
 package de.joshiworld.bungee.commands;
 
-import de.joshiworld.bungee.Bungee;
+import de.joshiworld.bungee.main.Bungee;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
+import net.md_5.bungee.api.plugin.TabExecutor;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.UUID;
+import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
-public class warp extends Command {
+public class warp extends Command implements TabExecutor {
     public warp() {
         super("warp");
     }
@@ -53,5 +54,12 @@ public class warp extends Command {
             }
         }, 1, TimeUnit.SECONDS);
 
+    }
+
+    @Override
+    public Iterable<String> onTabComplete(CommandSender sender, String[] args) {
+        if(!(sender instanceof ProxiedPlayer)) return Collections.<String>emptyList();
+        ProxiedPlayer player = (ProxiedPlayer) sender;
+        return Bungee.getInstance().data.getHomeNames("warp");
     }
 }

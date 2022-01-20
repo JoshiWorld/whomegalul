@@ -2,7 +2,7 @@ package de.joshiworld.bungee.events;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
-import de.joshiworld.bungee.Bungee;
+import de.joshiworld.bungee.main.Bungee;
 import de.joshiworld.sql.SQLGetter;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;

@@ -1,7 +1,7 @@
 package de.joshiworld.bukkit.commands;
 
 import de.joshiworld.api.LuckPermsAPI;
-import de.joshiworld.bukkit.Paper;
+import de.joshiworld.bukkit.main.Paper;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

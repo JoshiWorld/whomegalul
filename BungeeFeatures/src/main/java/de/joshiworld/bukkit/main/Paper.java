@@ -1,5 +1,4 @@
-package de.joshiworld.bukkit;
-
+package de.joshiworld.bukkit.main;
 
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
@@ -19,13 +18,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.SQLException;
 
-
 public final class Paper extends JavaPlugin implements Listener{
     public static Paper plugin;
     public MySQL SQL;
     public SQLGetter data;
     public LuckPerms luckPerms;
-
     public static Paper getInstance(){
         return plugin;
     }
@@ -58,8 +55,6 @@ public final class Paper extends JavaPlugin implements Listener{
         getLogger().info( "BukkitFeatures driver enabled successfully." );
 
     }
-    //@EventHandler
-
     public static void sendCustomData(String SubChannel, Player player, String data, String details){
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         String uuid = player.getUniqueId().toString();

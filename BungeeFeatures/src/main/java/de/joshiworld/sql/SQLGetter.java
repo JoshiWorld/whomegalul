@@ -1,6 +1,6 @@
 package de.joshiworld.sql;
-import de.joshiworld.bukkit.Paper;
-import de.joshiworld.bungee.Bungee;
+import de.joshiworld.bukkit.main.Paper;
+import de.joshiworld.bungee.main.Bungee;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

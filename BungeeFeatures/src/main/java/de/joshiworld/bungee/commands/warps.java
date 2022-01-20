@@ -1,6 +1,6 @@
 package de.joshiworld.bungee.commands;
 
-import de.joshiworld.bungee.Bungee;
+import de.joshiworld.bungee.main.Bungee;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;

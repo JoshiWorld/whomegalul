@@ -1,4 +1,4 @@
 name: BungeeFeatures
 version: '${project.version}'
-main: de.joshiworld.bungee.Bungee
+main: de.joshiworld.bungee.main.Bungee
 depends: ["LuckPerms"]

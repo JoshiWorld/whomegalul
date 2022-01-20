@@ -2,6 +2,7 @@ package de.joshiworld.bukkit.listener;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -21,14 +22,13 @@ public class onPluginMessage implements PluginMessageListener {
         if ( !channel.equalsIgnoreCase( "BungeeCord" ) ) return;
         ByteArrayDataInput in = ByteStreams.newDataInput( bytes );
         String subChannel = in.readUTF();
-        if ( subChannel.equalsIgnoreCase( "homedata" ) )
-        {
-            String playerID = in.readUTF();
-            Location location = StringToLocation(in.readUTF());
-            Bukkit.getLogger().info(playerID + " | "+ location);
-            if(Bukkit.getPlayer(UUID.fromString(playerID)) == null)return;
-            Player User = Bukkit.getPlayer(UUID.fromString(playerID));
-            User.teleport(location);
+        switch (subChannel) {
+            case "homedata":
+                onHomedata(in);
+                break;
+            case "tpa":
+                onTpa(in);
+                break;
         }
     }
 
@@ -41,4 +41,21 @@ public class onPluginMessage implements PluginMessageListener {
         World init = Bukkit.getServer().getWorld("world");
         return new Location(init,0,0,0).deserialize(LocMap);
     }
+    private void onHomedata(ByteArrayDataInput in){
+        String playerID = in.readUTF();
+        Location location = StringToLocation(in.readUTF());
+        Bukkit.getLogger().info(playerID + " | "+ location);
+        if(Bukkit.getPlayer(UUID.fromString(playerID)) == null)return;
+        Player User = Bukkit.getPlayer(UUID.fromString(playerID));
+        User.teleport(location);
+    }
+    private void onTpa(ByteArrayDataInput in){
+
+        Player tpPlayer = Bukkit.getPlayer(UUID.fromString(in.readUTF()));
+        Player target = Bukkit.getPlayer(UUID.fromString(in.readUTF()));
+        if(tpPlayer.isEmpty() || target.isEmpty()) return;
+        tpPlayer.teleport(target.getLocation());
+        tpPlayer.sendMessage("jajaja tp und so");
+    }
+
 }

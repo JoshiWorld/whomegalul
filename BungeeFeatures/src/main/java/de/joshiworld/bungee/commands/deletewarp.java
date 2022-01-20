@@ -1,7 +1,7 @@
 package de.joshiworld.bungee.commands;
 
 import de.joshiworld.api.LuckPermsAPI;
-import de.joshiworld.bungee.Bungee;
+import de.joshiworld.bungee.main.Bungee;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -10,7 +10,7 @@ import net.md_5.bungee.api.plugin.Command;
 
 public class deletewarp extends Command {
     public deletewarp() {
-        super("deletewarp");
+        super("deletewarp","bungeefeatures.warp");
     }
     private final LuckPermsAPI luckPerms= new LuckPermsAPI(Bungee.getInstance());
 

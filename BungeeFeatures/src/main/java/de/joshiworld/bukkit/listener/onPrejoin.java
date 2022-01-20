@@ -1,6 +1,6 @@
 package de.joshiworld.bukkit.listener;
 
-import de.joshiworld.bukkit.Paper;
+import de.joshiworld.bukkit.main.Paper;
 import de.joshiworld.sql.SQLGetter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;

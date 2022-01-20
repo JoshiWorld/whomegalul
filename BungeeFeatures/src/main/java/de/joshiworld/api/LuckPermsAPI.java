@@ -1,8 +1,8 @@
 package de.joshiworld.api;
 
 
-import de.joshiworld.bukkit.Paper;
-import de.joshiworld.bungee.Bungee;
+import de.joshiworld.bukkit.main.Paper;
+import de.joshiworld.bungee.main.Bungee;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.model.group.Group;
 import net.luckperms.api.model.user.User;

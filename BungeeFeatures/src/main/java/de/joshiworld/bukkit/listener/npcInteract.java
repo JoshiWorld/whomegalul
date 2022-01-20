@@ -1,6 +1,6 @@
 package de.joshiworld.bukkit.listener;
 
-import de.joshiworld.bukkit.Paper;
+import de.joshiworld.bukkit.main.Paper;
 import net.citizensnpcs.api.event.NPCRightClickEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
