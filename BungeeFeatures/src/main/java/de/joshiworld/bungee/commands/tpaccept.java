@@ -22,23 +22,33 @@ public class tpaccept extends Command {
     public void execute(CommandSender sender, String[] args) {
         if (!(sender instanceof ProxiedPlayer)) return;
         ProxiedPlayer target = (ProxiedPlayer) sender;
+
         HashMap<ProxiedPlayer,ProxiedPlayer> tpa = Bungee.getInstance().getTpa();
-        Optional<ProxiedPlayer> player = tpa.entrySet().stream()
+        Optional<ProxiedPlayer> playerOptional = tpa.entrySet().stream()
                 .filter(e -> target.equals(e.getValue()))
                 .map(Map.Entry::getKey)
                 .findFirst();
-        if(player.isPresent()){
-            if(!(target.getServer().getInfo().equals(player.get().getServer().getInfo())))
-                player.get().connect(ProxyServer.getInstance().getServerInfo(target.getServer().getInfo().getName()));
-            ProxyServer.getInstance().getScheduler().schedule(Bungee.getInstance(), new Runnable() {
-                String uuidTarget = target.getUniqueId().toString();
-                public void run() {
-                    Bungee.sendCustomData("tpa",player.get(),uuidTarget,"");
-                    player.get().sendMessage(new TextComponent(ChatColor.GOLD.toString()+"Teleport request accepted"));
-                }
-            }, 1, TimeUnit.SECONDS);
-            return;
-        }
+        if(!playerOptional.isPresent()) return;
+        ProxiedPlayer player = playerOptional.get();
 
+        if(!(target.getServer().getInfo().equals(player.getServer().getInfo())))
+            player.connect(ProxyServer.getInstance().getServerInfo(target.getServer().getInfo().getName()));
+
+        ProxyServer.getInstance().getScheduler().schedule(Bungee.getInstance(), new Runnable() {
+            String uuidTarget = target.getUniqueId().toString();
+
+            public void run() {
+                Bungee.sendCustomData("tpa", player, uuidTarget,"");
+                removePlayersFromMap(player, target);
+                player.sendMessage(new TextComponent(ChatColor.GOLD.toString() + "Teleport request accepted"));
+                target.sendMessage(new TextComponent(ChatColor.GOLD.toString() + "Teleport request accepted"));
+            }
+        }, 1, TimeUnit.SECONDS);
+
+    }
+
+    private void removePlayersFromMap(ProxiedPlayer player, ProxiedPlayer target) {
+        if(Bungee.getInstance().getTpa().containsKey(player)) Bungee.getInstance().getTpa().remove(player);
+        if(Bungee.getInstance().getTpa().containsKey(target)) Bungee.getInstance().getTpa().remove(target);
     }
 }

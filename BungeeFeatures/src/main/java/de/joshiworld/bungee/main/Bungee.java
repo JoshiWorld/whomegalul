@@ -12,13 +12,14 @@ import net.md_5.bungee.api.plugin.Plugin;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 
 public final class Bungee extends Plugin{
     private static Bungee instance;
     public MySQL SQL;
     public SQLGetter data;
     public LuckPerms luckPerms;
-    private HashMap<ProxiedPlayer, ProxiedPlayer> tpa = new HashMap<ProxiedPlayer,ProxiedPlayer>();
+    private HashMap<ProxiedPlayer, ProxiedPlayer> tpa = new HashMap<>();
 
     public static Bungee getInstance(){
         return instance;
@@ -31,13 +32,13 @@ public final class Bungee extends Plugin{
         this.data = new SQLGetter(this);
         luckPerms = LuckPermsProvider.get();
         new BungeeInitStuff(instance).init();
-
     }
 
     @Override
     public void onDisable() {
         SQL.disconnect();
     }
+
     public static void sendCustomData(String SubChannel, ProxiedPlayer player, String data, String data2) {
         String uuid = String.valueOf(player.getUniqueId());
         Collection<ProxiedPlayer> networkPlayers = ProxyServer.getInstance().getPlayers();
@@ -49,6 +50,7 @@ public final class Bungee extends Plugin{
         out.writeUTF( data2 );
         player.getServer().getInfo().sendData( "BungeeCord", out.toByteArray() );
     }
+
     public HashMap<ProxiedPlayer,ProxiedPlayer> getTpa(){
         return tpa;
     }

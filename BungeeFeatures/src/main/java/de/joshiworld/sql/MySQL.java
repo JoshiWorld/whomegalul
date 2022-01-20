@@ -8,9 +8,9 @@ public class MySQL {
     //replace with .env
     private String host = "localhost";
     private String port = "3306";
-    private String database = "test";
-    private String username = "root";
-    private String password = "";
+    private String database = "who";
+    private String username = "who";
+    private String password = "123whoMEGALUL?";
 
     private Connection connection;
 

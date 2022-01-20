@@ -146,7 +146,7 @@ public class SQLGetter {
     public void banUser(String uuid,String reason){
         try{
             PreparedStatement ps;
-            ps = ps = plugin.SQL.getConnection().prepareStatement("UPDATE `userlist` SET `BANNED` = '01',`DESCRIPTION` = ? WHERE `userlist`.`UUID` = ?");
+            ps = ps = plugin.SQL.getConnection().prepareStatement("UPDATE `Userlist` SET `BANNED` = '01',`DESCRIPTION` = ? WHERE `Userlist`.`UUID` = ?");
             ps.setString(1, reason);
             ps.setString(2, uuid);
             ps.executeUpdate();
@@ -157,7 +157,7 @@ public class SQLGetter {
     public void unbanUser(String uuid){
         try{
             PreparedStatement ps;
-            ps = ps = plugin.SQL.getConnection().prepareStatement("UPDATE `userlist` SET `BANNED` = '0',`DESCRIPTION` = '' WHERE `userlist`.`UUID` = ?");
+            ps = ps = plugin.SQL.getConnection().prepareStatement("UPDATE `Userlist` SET `BANNED` = '0',`DESCRIPTION` = '' WHERE `Userlist`.`UUID` = ?");
             ps.setString(1, uuid);
             ps.executeUpdate();
         }catch(SQLException e){
