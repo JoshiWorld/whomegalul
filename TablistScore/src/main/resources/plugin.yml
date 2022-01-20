@@ -1,0 +1,14 @@
+name: TablistScore
+version: '${project.version}'
+main: de.joshiworld.main.TablistScore
+api-version: 1.18
+prefix: TablistScore
+depend: [ LuckPerms ]
+authors: [ JoshiWorld ]
+description: Tablist
+website: https://whomegalul.de/
+
+commands:
+  money:
+    description: Money
+    usage: </money>
