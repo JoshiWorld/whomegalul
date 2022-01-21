@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerPreLoginEvent;
 
 public class PlayerJoinListener implements Listener {
     private TablistScore plugin;
@@ -26,10 +27,6 @@ public class PlayerJoinListener implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         PlayerData playerData = new PlayerData(player.getName(), this.plugin);
-        WhiteList whiteList = new WhiteList(player.getName(), this.plugin);
-
-        if(!whiteList.playerExists()) whiteList.createPlayer();
-        if(!whiteList.getWhitelist()) player.kickPlayer(this.plugin.getPrefix() + " §cDu bist nicht auf der Whitelist!");
 
         if(!playerData.playerExists()) playerData.createPlayer();
         getInventory(player, playerData);
@@ -42,6 +39,18 @@ public class PlayerJoinListener implements Listener {
 
         String message = "§7[§a+§7] " + ChatColor.translateAlternateColorCodes('&', this.luckPerms.getGroupPrefix(player.getName())) + player.getName();
         event.setJoinMessage(message);
+    }
+
+    @EventHandler
+    public void onPreJoin(PlayerPreLoginEvent event) {
+        String player = event.getName();
+        WhiteList whiteList = new WhiteList(player, this.plugin);
+
+        if(!whiteList.playerExists()) whiteList.createPlayer();
+        if(!whiteList.getWhitelist()) {
+            String msg = this.plugin.getPrefix() + " §cDu bist nicht auf der Whitelist!";
+            event.disallow(PlayerPreLoginEvent.Result.KICK_OTHER, msg);
+        }
     }
 
     private void getInventory(Player player, PlayerData playerData) {
