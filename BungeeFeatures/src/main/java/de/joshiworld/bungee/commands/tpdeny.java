@@ -6,7 +6,7 @@ import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
-import org.bukkit.entity.Player;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +31,7 @@ public class tpdeny extends Command {
         ProxiedPlayer player = playerOptional.get();
 
         Bungee.getInstance().getTpa().remove(player);
-
+        Bungee.getInstance().getscheduleMap().get(player).cancel();
         player.sendMessage(new TextComponent(ChatColor.GOLD.toString()+"Teleport request denied"));
         target.sendMessage(new TextComponent(ChatColor.GOLD.toString()+"Teleport request denied"));
     }

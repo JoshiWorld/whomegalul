@@ -9,10 +9,10 @@ import net.luckperms.api.LuckPermsProvider;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
+import net.md_5.bungee.api.scheduler.ScheduledTask;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Map;
 
 public final class Bungee extends Plugin{
     private static Bungee instance;
@@ -20,6 +20,7 @@ public final class Bungee extends Plugin{
     public SQLGetter data;
     public LuckPerms luckPerms;
     private HashMap<ProxiedPlayer, ProxiedPlayer> tpa = new HashMap<>();
+    private HashMap<ProxiedPlayer, ScheduledTask> scheduleMap = new HashMap<>();
 
     public static Bungee getInstance(){
         return instance;
@@ -53,5 +54,8 @@ public final class Bungee extends Plugin{
 
     public HashMap<ProxiedPlayer,ProxiedPlayer> getTpa(){
         return tpa;
+    }
+    public HashMap<ProxiedPlayer,ScheduledTask> getscheduleMap(){
+        return scheduleMap;
     }
 }

@@ -45,6 +45,8 @@ public class tpaccept extends Command {
             }
         }, 1, TimeUnit.SECONDS);
 
+        Bungee.getInstance().getscheduleMap().get(player).cancel();
+
     }
 
     private void removePlayersFromMap(ProxiedPlayer player, ProxiedPlayer target) {

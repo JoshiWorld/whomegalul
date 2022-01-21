@@ -8,10 +8,12 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.TabExecutor;
+import net.md_5.bungee.api.scheduler.ScheduledTask;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class tpa extends Command implements TabExecutor {
@@ -29,7 +31,7 @@ public class tpa extends Command implements TabExecutor {
             return;
         }
         ProxiedPlayer target = ProxyServer.getInstance().getPlayer(args[0]);
-        if(target == null){
+        if(!(target.isConnected())){
             player.sendMessage(new TextComponent(ChatColor.RED.toString()+"Player not found"));
             return;
         }
@@ -38,6 +40,13 @@ public class tpa extends Command implements TabExecutor {
         target.sendMessage(new TextComponent(ChatColor.RED.toString()+ player + ChatColor.GOLD.toString() + " has requested to teleport to you"));
         target.sendMessage(new TextComponent(ChatColor.GOLD.toString()+"To teleport, type " + ChatColor.RED.toString() + " /tpaccept"));
         target.sendMessage(new TextComponent(ChatColor.GOLD.toString()+"To deny this request, type" + ChatColor.RED.toString() + " /tpdeny"));
+
+        ScheduledTask tpaSchedule = ProxyServer.getInstance().getScheduler().schedule(Bungee.getInstance(), new Runnable() {
+            public void run() {
+                Bungee.getInstance().getTpa().remove(player);
+            }
+        }, 30, TimeUnit.SECONDS);
+        plugin.getscheduleMap().put(player,tpaSchedule);
     }
 
     @Override
