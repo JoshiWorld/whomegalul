@@ -1,0 +1,14 @@
+name: Jobs
+version: '${project.version}'
+main: de.joshiworld.main.Jobs
+api-version: 1.18
+prefix: Jobs
+depend: [ LuckPerms ]
+authors: [ JoshiWorld ]
+description: Jobs for WHOMEGALUL
+website: https://whomegalul.de
+
+commands:
+  job:
+    usage: </job>
+    description: Jobs
