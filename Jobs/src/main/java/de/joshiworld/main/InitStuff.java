@@ -1,7 +1,7 @@
 package de.joshiworld.main;
 
 import de.joshiworld.commands.JobCommand;
-import de.joshiworld.listeners.PlayerJoinListener;
+import de.joshiworld.listeners.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.event.Listener;
@@ -31,6 +31,12 @@ public class InitStuff {
     // Init Listeners
     private void initListeners() {
         addListener(new PlayerJoinListener(this.plugin));
+        addListener(new BlockPlaceListener(this.plugin));
+        addListener(new HolzListener(this.plugin));
+        addListener(new MinerListener(this.plugin));
+        addListener(new HunterListener(this.plugin));
+        addListener(new FarmerListener(this.plugin));
+        addListener(new TravelerListener(this.plugin));
     }
 
 

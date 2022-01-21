@@ -1,5 +1,6 @@
 package de.joshiworld.commands;
 
+import de.joshiworld.api.LevelAPI;
 import de.joshiworld.main.Jobs;
 import de.joshiworld.sql.JobsData;
 import org.bukkit.command.Command;
@@ -133,9 +134,10 @@ public class JobCommand implements CommandExecutor {
 
     private void sendCurrentJobLevel(Player player) {
         JobsData jobsData = new JobsData(player.getName(), this.plugin);
+        LevelAPI levelAPI = new LevelAPI(player, this.plugin);
 
         player.sendMessage(this.plugin.getPrefix() + " §eDein aktueller Job ist: §a" + jobsData.getJob());
         player.sendMessage(this.plugin.getPrefix() + " §aLevel: §c" + jobsData.getJobLvl(jobsData.getJob()));
-        player.sendMessage(this.plugin.getPrefix() + " §aErfahrung bis zum nächsten Level: §c" + jobsData.getJobXP(jobsData.getJob()));
+        player.sendMessage(this.plugin.getPrefix() + " §aXP: §c" + jobsData.getJobXP(jobsData.getJob()) + " §7/ §c" + levelAPI.getMaxLvlXP());
     }
 }

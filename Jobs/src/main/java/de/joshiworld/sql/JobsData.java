@@ -101,6 +101,15 @@ public class JobsData {
         return level;
     }
 
+    public void setJobLvl(String job, int lvl) {
+        if(!playerExists()) {
+            createPlayer();
+            setJobLvl(job, lvl);
+        }
+
+        this.plugin.getMySQL().update("UPDATE jobs SET " + convertJobLvl(job) + " = '" + lvl + "' WHERE PLAYER= '" + this.player + "';");
+    }
+
     // Get Job-Level
     public double getJobXP(String job) {
         double xp = 0;
@@ -125,6 +134,15 @@ public class JobsData {
         }
 
         return xp;
+    }
+
+    public void setJobXP(String job, double xp) {
+        if(!playerExists()) {
+            createPlayer();
+            setJobXP(job, xp);
+        }
+
+        this.plugin.getMySQL().update("UPDATE jobs SET " + convertJobXP(job) + " = '" + xp + "' WHERE PLAYER= '" + this.player + "';");
     }
 
     // Convert String for Level
