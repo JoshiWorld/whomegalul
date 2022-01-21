@@ -41,21 +41,43 @@ public class JobCommand implements CommandExecutor {
             case 2:
                 switch(args[0]) {
                     case "change":
+                        switch(args[1]) {
+                            case "Holzfäller":
+                            case "holzfäller":
+                            case "Miner":
+                            case "miner":
+                            case "Hunter":
+                            case "hunter":
+                            case "Farmer":
+                            case "farmer":
+                            case "Traveler":
+                            case "traveler":
+                                changeJob(player, args[1]);
+                                break;
+                            default:
+                                sendHelp(player);
+                                break;
+                        }
                         break;
                     case "info":
                         switch(args[1]) {
+                            case "Holzfäller":
                             case "holzfäller":
                                 jobInfoLumberjack(player);
                                 break;
+                            case "Miner":
                             case "miner":
                                 jobInfoMiner(player);
                                 break;
+                            case "Hunter":
                             case "hunter":
                                 jobInfoHunter(player);
                                 break;
+                            case "Farmer":
                             case "farmer":
                                 jobInfoFarmer(player);
                                 break;
+                            case "Traveler":
                             case "traveler":
                                 jobInfoTraveler(player);
                                 break;
@@ -139,5 +161,11 @@ public class JobCommand implements CommandExecutor {
         player.sendMessage(this.plugin.getPrefix() + " §eDein aktueller Job ist: §a" + jobsData.getJob());
         player.sendMessage(this.plugin.getPrefix() + " §aLevel: §c" + jobsData.getJobLvl(jobsData.getJob()));
         player.sendMessage(this.plugin.getPrefix() + " §aXP: §c" + jobsData.getJobXP(jobsData.getJob()) + " §7/ §c" + levelAPI.getMaxLvlXP());
+    }
+
+    private void changeJob(Player player, String job) {
+        JobsData jobsData = new JobsData(player.getName(), this.plugin);
+        jobsData.setJob(job.toLowerCase());
+        player.sendMessage(this.plugin.getPrefix() + " §aDu hast den Job §e" + job + " §aangenommen!");
     }
 }

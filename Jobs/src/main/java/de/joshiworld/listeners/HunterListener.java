@@ -70,6 +70,12 @@ public class HunterListener implements Listener {
             case RAVAGER:
                 levelAPI.addXP(10.0);
                 break;
+            case WITHER:
+                levelAPI.addXP(25.0);
+                break;
+            case ENDER_DRAGON:
+                levelAPI.addXP(50.0);
+                break;
         }
     }
 

@@ -6,6 +6,7 @@ import de.joshiworld.sql.PlayerData;
 import net.kyori.adventure.bossbar.BossBar;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.w3c.dom.Text;
 
@@ -27,6 +28,7 @@ public class LevelAPI {
         jobsData.setJobLvl(jobsData.getJob(), lvl);
         playerData.addMoney(jobsData.getJobLvl(jobsData.getJob()) * 15);
 
+        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0F, 1.0F);
         player.sendMessage(this.plugin.getPrefix() + " §aGlückwunsch! Du bist jetzt Level §e" + jobsData.getJobLvl(jobsData.getJob()) + " §ain §c" + jobsData.getJob());
     }
 

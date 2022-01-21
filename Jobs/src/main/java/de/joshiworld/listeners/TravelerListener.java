@@ -23,6 +23,7 @@ public class TravelerListener implements Listener {
 
         if(!jobsData.getJob().equalsIgnoreCase("traveler")) return;
         if(event.getFrom().getBlockX() == event.getTo().getBlockX() && event.getFrom().getBlockZ() == event.getTo().getBlockZ()) return;
+        if(!player.isOnGround()) return;
 
         levelAPI.addXP(0.005);
     }

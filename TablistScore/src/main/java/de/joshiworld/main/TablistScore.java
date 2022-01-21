@@ -1,5 +1,6 @@
 package de.joshiworld.main;
 
+import de.joshiworld.scoreboard.Score;
 import de.joshiworld.sql.MySQL;
 import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
@@ -14,17 +15,21 @@ public final class TablistScore extends JavaPlugin {
 
     private MySQL mysql;
 
+    private int updater;
+
     @Override
     public void onEnable() {
         this.plugin = this;
         connectSQL();
         new InitStuff(this.plugin).init();
+        startUpdater();
 
         getLogger().info("§aTablist loaded");
     }
 
     @Override
     public void onDisable() {
+        stopUpdater();
         this.mysql.close();
     }
 
@@ -51,6 +56,23 @@ public final class TablistScore extends JavaPlugin {
     private void connectSQL() {
         mysql = new MySQL("localhost", "who", "123whoMEGALUL?", "who");
         mysql.update("CREATE TABLE IF NOT EXISTS who(PLAYER varchar(64), MONEY int, CLAIMS varchar(8000), TRUSTED varchar(1000), OTHERCLAIMS varchar(1000), INV varchar(8000), ARMOR varchar(8000), STORAGE varchar(8000), ENDER varchar(8000), ENDERSTORE varchar(8000))");
+    }
+
+    private void startUpdater() {
+        this.updater = Bukkit.getScheduler().scheduleAsyncRepeatingTask(this.plugin, new Runnable() {
+            @Override
+            public void run() {
+                Bukkit.getOnlinePlayers().forEach(all -> {
+                    Score score = new Score(all, plugin);
+                    score.updateScore();
+                });
+            }
+        }, 0, 20*5);
+    }
+
+    private void stopUpdater() {
+        if(Bukkit.getScheduler().isCurrentlyRunning(this.updater))
+            Bukkit.getScheduler().cancelTask(this.updater);
     }
 
 }
