@@ -16,7 +16,7 @@ public class onPrejoin implements Listener {
         String uuid = e.getUniqueId().toString();
         String name = e.getName();
         data.addUser(uuid,name);
-        Paper.getInstance().getLogger().info(uuid + name);
+        data.updateUsername(uuid);
         if(data.isBanned(uuid)){
             final TextComponent Banreason = Component.text(data.getBanreason(uuid));
             e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_BANNED,Banreason);

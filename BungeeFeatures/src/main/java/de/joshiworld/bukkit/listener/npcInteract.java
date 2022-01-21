@@ -20,10 +20,7 @@ public class npcInteract implements Listener {
             case "Spawn":
                 Paper.sendCustomData("Serverswitch",player,"lobby","");
                 break;
-
-
         }
-
     }
 }
 

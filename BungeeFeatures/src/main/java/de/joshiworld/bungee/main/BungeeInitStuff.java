@@ -36,6 +36,7 @@ public class BungeeInitStuff {
         addCommand(new tpdeny());
         addCommand(new deletehome());
         addCommand(new tpaccept());
+        addCommand(new deleteserverhomes());
     }
     private void addCommand(Command command){
         plugin.getProxy().getPluginManager().registerCommand(plugin, command);
@@ -46,6 +47,7 @@ public class BungeeInitStuff {
     }
     private void initSQL(){
         try {
+            if (plugin.SQL.isConnected()) return;
             plugin.SQL.connect();
         } catch (SQLException | ClassNotFoundException e) {
             plugin.getLogger().info("Database not connected");

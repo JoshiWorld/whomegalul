@@ -39,7 +39,8 @@ public class bungeeban extends Command {
                 }
             }
             data.banUser(uuid,Banreason);
-            bannedUser.disconnect(new TextComponent(Banreason));
+            if(bannedUser.isConnected())
+                bannedUser.disconnect(new TextComponent(Banreason));
             if(!(sender instanceof ProxiedPlayer)){
                 Bungee.getInstance().getLogger().info("Banned User: "+args[0]);
                 return;

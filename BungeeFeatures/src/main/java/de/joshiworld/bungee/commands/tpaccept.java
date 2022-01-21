@@ -49,6 +49,5 @@ public class tpaccept extends Command {
 
     private void removePlayersFromMap(ProxiedPlayer player, ProxiedPlayer target) {
         if(Bungee.getInstance().getTpa().containsKey(player)) Bungee.getInstance().getTpa().remove(player);
-        if(Bungee.getInstance().getTpa().containsKey(target)) Bungee.getInstance().getTpa().remove(target);
     }
 }
