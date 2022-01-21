@@ -2,10 +2,8 @@ package de.joshiworld.sql;
 
 import de.joshiworld.api.BukkitSerialization;
 import de.joshiworld.main.TablistScore;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import java.io.IOException;

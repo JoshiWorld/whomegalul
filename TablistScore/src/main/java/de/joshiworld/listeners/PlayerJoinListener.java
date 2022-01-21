@@ -4,7 +4,9 @@ import de.joshiworld.api.LuckPermsAPI;
 import de.joshiworld.main.TablistScore;
 import de.joshiworld.scoreboard.Score;
 import de.joshiworld.sql.PlayerData;
+import de.joshiworld.sql.WhiteList;
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,9 +26,12 @@ public class PlayerJoinListener implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         PlayerData playerData = new PlayerData(player.getName(), this.plugin);
+        WhiteList whiteList = new WhiteList(player.getName(), this.plugin);
+
+        if(!whiteList.playerExists()) whiteList.createPlayer();
+        if(!whiteList.getWhitelist()) player.kickPlayer(this.plugin.getPrefix() + " §cDu bist nicht auf der Whitelist!");
 
         if(!playerData.playerExists()) playerData.createPlayer();
-
         getInventory(player, playerData);
 
         Bukkit.getOnlinePlayers().forEach(all -> {

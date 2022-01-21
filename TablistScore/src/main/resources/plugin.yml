@@ -12,3 +12,6 @@ commands:
   money:
     description: Money
     usage: </money>
+  globallist:
+    description: Globallist
+    usage: </globallist>
