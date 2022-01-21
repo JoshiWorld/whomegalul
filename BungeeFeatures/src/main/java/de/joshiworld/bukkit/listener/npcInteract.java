@@ -9,10 +9,21 @@ import org.bukkit.event.Listener;
 public class npcInteract implements Listener {
     @EventHandler
     public void onnpcInteract(NPCRightClickEvent e) {
-        if((e.getNPC().data().get("Teleport")==null))return;
-        Player p = e.getClicker();
-        String server = e.getNPC().data().get("Server");
-        Paper.sendCustomData("Serverswitch",p,server,"");
+        Player player = e.getClicker();
+        switch (e.getNPC().getName()){
+            case "Bauwelt":
+                Paper.sendCustomData("Serverswitch",player,"bauwelt","");
+                break;
+            case "Farmwelt":
+                Paper.sendCustomData("Serverswitch",player,"farmwelt","");
+                break;
+            case "Spawn":
+                Paper.sendCustomData("Serverswitch",player,"lobby","");
+                break;
+
+
+        }
+
     }
 }
 

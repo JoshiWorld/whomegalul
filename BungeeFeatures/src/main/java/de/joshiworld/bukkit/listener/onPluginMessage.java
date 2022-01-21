@@ -53,9 +53,8 @@ public class onPluginMessage implements PluginMessageListener {
 
         Player tpPlayer = Bukkit.getPlayer(UUID.fromString(in.readUTF()));
         Player target = Bukkit.getPlayer(UUID.fromString(in.readUTF()));
-        if(tpPlayer.isEmpty() || target.isEmpty()) return;
         tpPlayer.teleport(target.getLocation());
-        tpPlayer.sendMessage("jajaja tp und so");
+
     }
 
 }

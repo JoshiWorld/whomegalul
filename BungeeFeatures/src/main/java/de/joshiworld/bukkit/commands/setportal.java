@@ -16,13 +16,9 @@ public class setportal implements CommandExecutor {
         if (!(sender instanceof Player)) return true;
         Player player = (Player) sender;
         Location loc = player.getLocation();
-        if(args.length != 2) return true;
-        String npcName = args[0];
-        npcName = npcName.replace('-',' ');
-        String server = args[1];
-        NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, npcName);
-        npc.data().set("Server",server);
-        npc.data().set("Teleport",true);
+        if(args.length != 1) return true;
+        String server = args[0];
+        NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, server);
         npc.spawn(loc);
 
         return true;

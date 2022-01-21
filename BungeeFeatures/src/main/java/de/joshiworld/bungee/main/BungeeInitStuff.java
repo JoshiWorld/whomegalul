@@ -29,6 +29,7 @@ public class BungeeInitStuff {
         addCommand(new homes());
         addCommand(new warp());
         addCommand(new warps());
+        addCommand(new deletewarp());
         addCommand(new bungeeban());
         addCommand(new bungeeunban());
         addCommand(new tpa());
