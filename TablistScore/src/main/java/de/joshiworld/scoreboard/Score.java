@@ -18,6 +18,7 @@ public class Score {
         this.luckPerms = new LuckPermsAPI(this.plugin);
     }
 
+    //<editor-fold defaultstate="collapsed" desc="setScore">
     public void setScore() {
         ScoreboardManager scoreboardManager = Bukkit.getScoreboardManager();
         Scoreboard board = scoreboardManager.getNewScoreboard();
@@ -44,7 +45,9 @@ public class Score {
 
         this.player.setScoreboard(board);
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="updateScore">
     public void updateScore(){
         Objective objective = this.player.getScoreboard().getObjective("test");
 
@@ -62,7 +65,9 @@ public class Score {
         int on = Bukkit.getOnlinePlayers().size();
         online.setPrefix("§f" + on + "§f/187");
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="setTab">
     public void setTab() {
         if(this.player.getScoreboard() == null) {
             setScore();
@@ -74,8 +79,8 @@ public class Score {
         Team pepega = board.getTeam("0003Pepega") != null ? board.getTeam("0003Pepega") : board.registerNewTeam("0003Pepega");
         Team pleb = board.getTeam("0004Pleb") != null ? board.getTeam("0004Pleb") : board.registerNewTeam("0004Pleb");
 
-        admin.setPrefix("§aAdmin §7| §f");
-        streamer.setPrefix("§5Streamer §7| §f");
+        admin.setPrefix("\uE021" + " §aAdmin §7| §f");
+        streamer.setPrefix("\uE022" + " §5Streamer §7| §f");
         pepega.setPrefix("§9Pepega §7| §f");
         pleb.setPrefix("§7Pleb §7| §f");
 
@@ -96,7 +101,9 @@ public class Score {
             }
         });
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="updateTab">
     public void updateTab() {
         Scoreboard board = this.player.getScoreboard();
 
@@ -126,5 +133,6 @@ public class Score {
             }
         });
     }
+    //</editor-fold>
 
 }

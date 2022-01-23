@@ -1,6 +1,7 @@
 package de.joshiworld.listeners;
 
 import de.joshiworld.api.LuckPermsAPI;
+import de.joshiworld.api.MessageEmoteReplace;
 import de.joshiworld.main.TablistScore;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
@@ -20,6 +21,10 @@ public class PlayerChatListener implements Listener {
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
+
+        String message = event.getMessage();
+        message = new MessageEmoteReplace().replaceEmotes(message);
+        event.setMessage(message);
 
         if(this.luckperms.getGroup(player.getUniqueId()).getName().equalsIgnoreCase("default"))
             event.setFormat("§8§l[§7§lPleb§8§l] §7" + player.getName() + "§8: §f" + event.getMessage());
