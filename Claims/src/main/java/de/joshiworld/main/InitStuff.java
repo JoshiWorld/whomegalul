@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import de.joshiworld.claims.ChunkBlocks;
 import de.joshiworld.claims.ClaimBlocks;
+import de.joshiworld.claims.FlagListener;
 import de.joshiworld.commands.ClaimCommand;
 import de.joshiworld.commands.VanishCommand;
 import de.joshiworld.listeners.PlayerChatListener;
@@ -58,6 +59,7 @@ public class InitStuff {
         addListener(new ChunkBlocks(this.plugin));
         addListener(new ClaimBlocks(this.plugin));
         addListener(new AdminShopListener(this.plugin));
+        addListener(new FlagListener(this.plugin));
     }
 
 

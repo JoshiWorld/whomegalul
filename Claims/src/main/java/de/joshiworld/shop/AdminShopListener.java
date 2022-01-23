@@ -347,7 +347,7 @@ public class AdminShopListener implements Listener {
                                             p.sendMessage("§cDu hast nicht genügen Platz in deinem Inventar");
                                         }
                                     } else {
-                                        p.sendMessage("§cDu hast nicht genügend §6Derps§c, um dieses Item in dieser Menge zu kaufen");
+                                        p.sendMessage("§cDu hast nicht genügend §6WHO's§c, um dieses Item in dieser Menge zu kaufen");
                                     }
                                 }
 

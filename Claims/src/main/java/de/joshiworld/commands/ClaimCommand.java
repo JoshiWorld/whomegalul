@@ -70,11 +70,27 @@ public class ClaimCommand implements CommandExecutor {
 
                 if(args[0].equals("trust")) addTrust(player, Bukkit.getPlayer(args[1]));
                 else removeTrust(player, Bukkit.getPlayer(args[1]));
-
                 break;
             case "trustlist":
                 sendTrustlist(player);
                 break;
+            case "flaglist":
+                sendFlaglist(player);
+                break;
+            case "info":
+                sendInfo(player);
+                break;
+
+            case "buy":
+                if(args.length > 2 || !isInteger(args[1])) return true;
+                buyClaim(player, Integer.parseInt(args[1]));
+                break;
+
+            case "flag":
+                if(args.length > 3) return true;
+                flagSet(player, args[1], args[2]);
+                break;
+
             case "clear":
                 if(!this.luckPerms.hasPermissionGroup("claims.claims", player.getName())) return true;
                 clearClaim(player, args[1]);
@@ -86,7 +102,7 @@ public class ClaimCommand implements CommandExecutor {
 
             // DEFAULT
             default:
-                player.sendMessage(this.plugin.getPrefix() + " §cDu Hurensohn");
+                player.sendMessage(this.plugin.getPrefix() + " §cDu Huansohn");
                 break;
         }
 
@@ -98,9 +114,13 @@ public class ClaimCommand implements CommandExecutor {
         player.sendMessage("§7Alle Claim-Commands:");
         player.sendMessage("§a/claim create");
         player.sendMessage("§a/claim remove");
+        player.sendMessage("§a/claim buy <amount>");
+        player.sendMessage("§a/claim flag <flag> <true|false>");
         player.sendMessage("§a/claim trust <player>");
         player.sendMessage("§a/claim untrust <player>");
         player.sendMessage("§a/claim trustlist");
+        player.sendMessage("§a/claim flaglist");
+        player.sendMessage("§a/claim info");
 
         if(this.luckPerms.hasPermissionGroup("claims.claims", player.getName())) {
             player.sendMessage("§c/claim clear <player>");
@@ -129,6 +149,77 @@ public class ClaimCommand implements CommandExecutor {
         ChunkData chunkData = new ChunkData(chunk, this.plugin);
 
         player.sendMessage(this.plugin.getPrefix() + " §aDieser Chunk gehört: §e" + chunkData.lookupChunkOwner());
+    }
+
+    // Send Claim Info
+    private void sendInfo(Player player) {
+        PlayerData playerData = new PlayerData(player.getName(), this.plugin);
+        int claimed = playerData.getClaims().size();
+        int maxClaims = playerData.getMaxClaims();
+
+        player.sendMessage(this.plugin.getPrefix() + " §c" + claimed + " §7/ §c" + maxClaims + " §aClaims sind verbraucht.");
+    }
+
+    // Buy Claims
+    private void buyClaim(Player player, int amount) {
+        PlayerData playerData = new PlayerData(player.getName(), this.plugin);
+        int price = 500;
+
+        if(amount*price > playerData.getMoney()) {
+            player.sendMessage(this.plugin.getPrefix() + " §cDu bist ein armer Schlucker du Hund!");
+            return;
+        }
+
+        playerData.removeMoney(amount*price);
+        playerData.addMaxClaims(amount);
+        player.sendMessage(this.plugin.getPrefix() + " §aVallah Bruder du bist reich!");
+    }
+
+    // Flag List
+    private void sendFlaglist(Player player) {
+        PlayerData playerData = new PlayerData(player.getName(), this.plugin);
+        String message = this.plugin.getPrefix() + " §eAlle Flags§7: §cpvp, trading";
+
+        if(playerData.getFlags().isEmpty()) player.sendMessage(message);
+        else {
+            for(String flag : playerData.getFlags()) {
+                message = message.replaceAll(flag, "§a" + flag + "§c");
+            }
+            player.sendMessage(message);
+        }
+    }
+
+    // Set Flag
+    private void flagSet(Player player, String flag, String isAllowed) {
+        PlayerData playerData = new PlayerData(player.getName(), this.plugin);
+
+        switch(flag.toLowerCase()) {
+            case "pvp":
+                if(isAllowed.equalsIgnoreCase("true")) {
+                    if(!playerData.getFlags().isEmpty() && playerData.getFlags().contains("pvp")) return;
+
+                    playerData.addFlags("pvp");
+                    player.sendMessage(this.plugin.getPrefix() + " §aPVP Flag true");
+                } else {
+                    playerData.removeFlags("pvp");
+                    player.sendMessage(this.plugin.getPrefix() + " §cPVP Flag false");
+                }
+                break;
+            case "trading":
+                if(isAllowed.equalsIgnoreCase("true")) {
+                    if(!playerData.getFlags().isEmpty() && playerData.getFlags().contains("trading")) return;
+
+                    playerData.addFlags("trading");
+                    player.sendMessage(this.plugin.getPrefix() + " §aTrading Flag true");
+                } else {
+                    playerData.removeFlags("trading");
+                    player.sendMessage(this.plugin.getPrefix() + " §cTrading Flag false");
+                }
+                break;
+            default:
+                player.sendMessage(this.plugin.getPrefix() + " §cDieser Flag existiert nicht!");
+                break;
+        }
     }
 
     //<editor-fold defaultstate="collapsed" desc="/claim create">
@@ -172,8 +263,13 @@ public class ClaimCommand implements CommandExecutor {
         }
 
         PlayerData playerData = new PlayerData(player.getName(), this.plugin);
-        playerData.addClaims(chunks);
 
+        if((playerData.getClaims().size() + chunks.size()) > playerData.getMaxClaims()) {
+            player.sendMessage(this.plugin.getPrefix() + " §cDiese Anzahl an Claims stehen dir nicht zur Verfügung!");
+            return;
+        }
+
+        playerData.addClaims(chunks);
         this.plugin.getClaimList().remove(player);
     }
     //</editor-fold>
@@ -274,5 +370,16 @@ public class ClaimCommand implements CommandExecutor {
         else player.sendMessage(this.plugin.getPrefix() + " §aTrusted Spieler: §e" + trusted.toString().substring(1, trusted.toString().length()-1));
     }
     //</editor-fold>
+
+    // Check if its integer
+    private boolean isInteger(String s) {
+        try {
+            Integer.parseInt(s);
+        } catch(NumberFormatException | NullPointerException e) {
+            return false;
+        }
+        // only got here if we didn't return false
+        return true;
+    }
 
 }

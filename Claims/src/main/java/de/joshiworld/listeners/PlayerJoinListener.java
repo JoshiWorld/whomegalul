@@ -21,9 +21,6 @@ public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        PlayerData playerData = new PlayerData(player.getName(), this.plugin);
-
-        if(!playerData.playerExists()) playerData.createPlayer();
 
         String message = "§7[§a+§7] " + ChatColor.translateAlternateColorCodes('&', this.luckperms.getGroupPrefix(player.getName())) + player.getName();
         event.setJoinMessage(message);

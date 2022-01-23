@@ -49,7 +49,7 @@ public final class Jobs extends JavaPlugin {
     // Setup MySQL Connection
     private void connectSQL() {
         mysql = new MySQL("localhost", "who", "123whoMEGALUL?", "who");
-        mysql.update("CREATE TABLE IF NOT EXISTS who(PLAYER varchar(64), MONEY int, CLAIMS varchar(8000), TRUSTED varchar(1000), OTHERCLAIMS varchar(1000), INV varchar(8000), ARMOR varchar(8000), STORAGE varchar(8000), ENDER varchar(8000), ENDERSTORE varchar(8000))");
+        //mysql.update("CREATE TABLE IF NOT EXISTS who(PLAYER varchar(64), MONEY int, CLAIMS varchar(8000), TRUSTED varchar(1000), OTHERCLAIMS varchar(1000), INV varchar(8000), ARMOR varchar(8000), STORAGE varchar(8000), ENDER varchar(8000), ENDERSTORE varchar(8000))");
         mysql.update("CREATE TABLE IF NOT EXISTS jobs(PLAYER varchar(64), CURRENT varchar(64), " +
                 "HOLZ_LVL int, HOLZ_XP double," +
                 "MINER_LVL int, MINER_XP double," +

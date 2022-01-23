@@ -1,6 +1,7 @@
 package de.joshiworld.sql;
 
 import de.joshiworld.main.Claims;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 
 import java.sql.ResultSet;
@@ -32,7 +33,7 @@ public class PlayerData {
     // Create Player
     public void createPlayer() {
         if(!playerExists()) {
-            this.plugin.getMySQL().update("INSERT INTO who(PLAYER, MONEY, CLAIMS, TRUSTED, OTHERCLAIMS) VALUES ('" + this.player + "', '0', '', '', '');");
+            this.plugin.getMySQL().update("INSERT INTO who(PLAYER, MONEY, CLAIMS, FLAGS, MAXCL, TRUSTED, OTHERCLAIMS, INV, STORAGE, ARMOR, ENDER, ENDERSTORE) VALUES ('" + this.player + "', '0', '', '', '9', '', '', '', '', '', '', '');");
         }
     }
 
@@ -173,6 +174,134 @@ public class PlayerData {
         list.forEach(claimList::remove);
 
         setClaims(claimList);
+    }
+
+
+
+    // Get Flags
+    public List<String> getFlags() {
+        List<String> flags = null;
+
+        if(!playerExists()) {
+            createPlayer();
+            getFlags();
+        }
+
+        try {
+            ResultSet resultSet = this.plugin.getMySQL().query("SELECT * FROM who WHERE PLAYER= '" + this.player + "'");
+
+            if(resultSet.next()) {
+                resultSet.getString("FLAGS");
+            }
+
+            if(resultSet.getString("FLAGS").isEmpty()) {
+                flags = new ArrayList<String>();
+            } else {
+                int maxL = resultSet.getString("FLAGS").length()-1;
+
+                if(resultSet.getString("FLAGS").isEmpty() || resultSet.getString("FLAGS").contains("[]") || resultSet.getString("FLAGS").contains("[ ]"))
+                    return new ArrayList<String>();
+                String[] claimsArray = resultSet.getString("FLAGS").substring(1, maxL).split(", ");
+                List<String> tempList = new ArrayList<>();
+
+                for (String s : claimsArray) {
+                    tempList.add(String.valueOf(s));
+                }
+
+                flags = tempList;
+            }
+
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return flags;
+    }
+
+    // Set CLAIMS
+    public void setFlags(List<String> list) {
+        if(!playerExists()) {
+            createPlayer();
+            setFlags(list);
+        }
+
+        this.plugin.getMySQL().update("UPDATE who SET FLAGS = '" + list.toString() + "' WHERE PLAYER= '" + this.player + "';");
+    }
+
+    // Add CLAIMS
+    public void addFlags(String flag) {
+        if(!playerExists()) {
+            createPlayer();
+            addFlags(flag);
+        }
+
+        List<String> flagList = getFlags() == null ? new ArrayList<>() : getFlags();
+        flagList.add(flag);
+
+        setFlags(flagList);
+    }
+
+    // Remove CLAIMS
+    public void removeFlags(String flag) {
+        if(!playerExists()) {
+            createPlayer();
+            removeFlags(flag);
+        }
+
+        List<String> flagList = getFlags();
+        if(flagList.contains(flag)) flagList.remove(flag);
+
+        setFlags(flagList);
+    }
+
+
+
+    // Max Claims
+    public int getMaxClaims() {
+        int maxClaims = 0;
+
+        if(!playerExists()) {
+            createPlayer();
+            getMaxClaims();
+        }
+
+        try {
+            ResultSet resultSet = this.plugin.getMySQL().query("SELECT * FROM who WHERE PLAYER= '" + this.player + "'");
+
+            if(resultSet.next()) {
+                resultSet.getInt("MAXCL");
+            }
+
+            maxClaims = resultSet.getInt("MAXCL");
+
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return maxClaims;
+    }
+
+    // Set Money
+    public void setMaxClaims(int maxClaims) {
+        if(!playerExists()) {
+            createPlayer();
+            setMaxClaims(maxClaims);
+        }
+
+        this.plugin.getMySQL().update("UPDATE who SET MAXCL = '" + maxClaims + "' WHERE PLAYER= '" + this.player + "';");
+    }
+
+    // Add Money
+    public void addMaxClaims(int maxClaims) {
+        if(!playerExists()) {
+            createPlayer();
+            addMaxClaims(maxClaims);
+        }
+
+        int add = getMaxClaims() + maxClaims;
+        setMaxClaims(add);
     }
 
 

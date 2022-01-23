@@ -5,6 +5,7 @@ import de.joshiworld.main.Claims;
 import de.joshiworld.sql.ChunkData;
 import de.joshiworld.sql.PlayerData;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,6 +14,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 
 import java.util.Optional;
 
@@ -41,6 +43,17 @@ public class ChunkBlocks implements Listener {
     public void onPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
         Long chunk = event.getBlock().getChunk().getChunkKey();
+        PlayerData playerData = new PlayerData(player.getName(), this.plugin);
+
+        if(!checkBlock(player, chunk, playerData)) event.setCancelled(true);
+    }
+
+    // No Interact
+    @EventHandler
+    public void onClaimInteract(PlayerInteractEvent event) {
+        if(event.getClickedBlock() == null || event.getClickedBlock().getType().equals(Material.AIR)) return;
+        Player player = event.getPlayer();
+        Long chunk = event.getClickedBlock().getChunk().getChunkKey();
         PlayerData playerData = new PlayerData(player.getName(), this.plugin);
 
         if(!checkBlock(player, chunk, playerData)) event.setCancelled(true);

@@ -33,7 +33,7 @@ public class PlayerData {
     // Create Player
     public void createPlayer() {
         if(!playerExists()) {
-            this.plugin.getMySQL().update("INSERT INTO who(PLAYER, MONEY, CLAIMS, TRUSTED, OTHERCLAIMS, INV, STORAGE, ARMOR, ENDER, ENDERSTORE) VALUES ('" + this.player + "', '0', '', '', '', '', '', '', '', '');");
+            this.plugin.getMySQL().update("INSERT INTO who(PLAYER, MONEY, CLAIMS, FLAGS, MAXCL, TRUSTED, OTHERCLAIMS, INV, STORAGE, ARMOR, ENDER, ENDERSTORE) VALUES ('" + this.player + "', '0', '', '', '9', '', '', '', '', '', '', '');");
         }
     }
 
