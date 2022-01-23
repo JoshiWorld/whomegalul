@@ -7,17 +7,14 @@ import de.joshiworld.bukkit.listener.EmoteReplace;
 import de.joshiworld.bukkit.listener.npcInteract;
 import de.joshiworld.bukkit.listener.onPluginMessage;
 import de.joshiworld.bukkit.listener.onPrejoin;
+import de.joshiworld.bukkit.util.MessageEmoteReplace;
 import net.luckperms.api.LuckPermsProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
-import org.w3c.dom.Document;
 
-import java.io.File;
-import java.io.IOException;
 import java.sql.SQLException;
-import java.util.logging.Logger;
 
 public class Paperinit {
     public Paper plugin;
@@ -32,6 +29,7 @@ public class Paperinit {
         plugin.luckPerms = LuckPermsProvider.get();
         plugin.getServer().getMessenger().registerIncomingPluginChannel( plugin, "BungeeCord",new onPluginMessage());
         plugin.getServer().getMessenger().registerOutgoingPluginChannel(plugin, "BungeeCord");
+        plugin.setEmoteList(new MessageEmoteReplace(plugin).create());
     }
     private void initCommands() {
         addCommand("sethome", new PaperHomes());

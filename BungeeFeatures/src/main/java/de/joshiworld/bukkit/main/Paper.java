@@ -9,7 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.sql.SQLException;
+
+import java.util.Map;
 
 public final class Paper extends JavaPlugin implements Listener{
     public static Paper plugin;
@@ -19,6 +20,7 @@ public final class Paper extends JavaPlugin implements Listener{
     public static Paper getInstance(){
         return plugin;
     }
+    private Map<String,String> emoteList;
 
     public void onEnable() {
         plugin = this;
@@ -37,7 +39,11 @@ public final class Paper extends JavaPlugin implements Listener{
         out.writeUTF( details );
         player.getServer().sendPluginMessage(plugin,"BungeeCord",out.toByteArray());
     }
-
-
+    public Map<String,String> getEmoteList(){
+        return emoteList;
+    }
+    public void setEmoteList(Map<String,String> list){
+        this.emoteList = list;
+    }
 
 }
