@@ -1,5 +1,6 @@
 package de.joshiworld.main;
 
+import de.joshiworld.commands.MaintenanceCommand;
 import de.joshiworld.commands.MoneyCommand;
 import de.joshiworld.commands.WhitelistCommand;
 import de.joshiworld.listeners.EnderChestListener;
@@ -30,6 +31,7 @@ public class InitStuff {
     private void initCommands() {
         addCommand("money", new MoneyCommand(this.plugin));
         addCommand("globallist", new WhitelistCommand(this.plugin));
+        addCommand("maintenance", new MaintenanceCommand(this.plugin));
     }
 
 

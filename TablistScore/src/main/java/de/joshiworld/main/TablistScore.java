@@ -57,6 +57,7 @@ public final class TablistScore extends JavaPlugin {
         mysql = new MySQL("localhost", "who", "123whoMEGALUL?", "who");
         mysql.update("CREATE TABLE IF NOT EXISTS who(PLAYER varchar(64), MONEY int, CLAIMS varchar(8000), FLAGS varchar(100), MAXCL int, TRUSTED varchar(1000), OTHERCLAIMS varchar(1000), INV varchar(8000), STORAGE varchar(8000), ARMOR varchar(8000), ENDER varchar(8000), ENDERSTORE varchar(8000))");
         mysql.update("CREATE TABLE IF NOT EXISTS whitelist(PLAYER varchar(64), WHITELIST tinyint(1))");
+        mysql.update("CREATE TABLE IF NOT EXISTS wartung(WARTUNG tinyint(1))");
     }
 
     private void startUpdater() {

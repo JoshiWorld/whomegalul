@@ -50,6 +50,11 @@ public class PlayerJoinListener implements Listener {
             String msg = this.plugin.getPrefix() + " §cDu bist nicht auf der Whitelist!";
             event.disallow(PlayerPreLoginEvent.Result.KICK_OTHER, msg);
         }
+
+        if(!this.luckPerms.hasPermissionGroup("claims.maintenance", event.getUniqueId())) {
+            String msg = this.plugin.getPrefix() + " §cSERVER-WARTUNG!";
+            event.disallow(PlayerPreLoginEvent.Result.KICK_OTHER, msg);
+        }
     }
 
     private void getInventory(Player player, PlayerData playerData) {
