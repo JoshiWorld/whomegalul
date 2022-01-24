@@ -8,6 +8,7 @@ import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
 import net.citizensnpcs.api.trait.Trait;
 import net.citizensnpcs.api.trait.TraitInfo;
+import net.citizensnpcs.api.util.DataKey;
 import net.citizensnpcs.trait.LookClose;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -18,6 +19,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.jetbrains.annotations.NotNull;
 
+import javax.xml.crypto.Data;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.UUID;
@@ -57,7 +59,7 @@ public class TopPlayerCommand implements CommandExecutor {
         String top = null;
 
         switch(job.toLowerCase()) {
-            case "holzfäller":
+            case "holz":
                 top = new JobsData(this.plugin).getTopLumber();
                 break;
             case "miner":
@@ -78,8 +80,12 @@ public class TopPlayerCommand implements CommandExecutor {
         }
 
         NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, top);
-        npc.data().set(job.toLowerCase(), top);
-        npc.addTrait(LookClose.class);
+        npc.data().setPersistent(job.toLowerCase(), top);
+
+        LookClose trait = new LookClose();
+        trait.lookClose(true);
+        npc.addTrait(trait);
+
         npc.spawn(player.getLocation());
     }
 
@@ -87,7 +93,7 @@ public class TopPlayerCommand implements CommandExecutor {
         String top = null;
 
         switch(job.toLowerCase()) {
-            case "holzfäller":
+            case "holz":
                 top = new JobsData(this.plugin).getTopLumber();
                 break;
             case "miner":
@@ -102,6 +108,10 @@ public class TopPlayerCommand implements CommandExecutor {
             case "traveler":
                 top = new JobsData(this.plugin).getTopTraveler();
                 break;
+            case "all":
+                refreshAll();
+                player.sendMessage(this.plugin.getPrefix() + " §aDu hast alle Top-Player refreshed!");
+                break;
             default:
                 player.sendMessage(this.plugin.getPrefix() + " §cDu Huansohn schaffst es ja immernoch nicht");
                 break;
@@ -112,7 +122,45 @@ public class TopPlayerCommand implements CommandExecutor {
                 Location loc = npc.getStoredLocation();
                 npc.despawn();
                 npc.setName(top);
-                npc.addTrait(LookClose.class);
+                npc.spawn(loc);
+            }
+        }
+    }
+
+    private void refreshAll() {
+        for(NPC npc : CitizensAPI.getNPCRegistry()) {
+            if(npc.data().has("holz")) {
+                Location loc = npc.getStoredLocation();
+                npc.despawn();
+                npc.setName(new JobsData(this.plugin).getTopLumber());
+                npc.spawn(loc);
+            }
+
+            if(npc.data().has("miner")) {
+                Location loc = npc.getStoredLocation();
+                npc.despawn();
+                npc.setName(new JobsData(this.plugin).getTopMiner());
+                npc.spawn(loc);
+            }
+
+            if(npc.data().has("hunter")) {
+                Location loc = npc.getStoredLocation();
+                npc.despawn();
+                npc.setName(new JobsData(this.plugin).getTopHunter());
+                npc.spawn(loc);
+            }
+
+            if(npc.data().has("farmer")) {
+                Location loc = npc.getStoredLocation();
+                npc.despawn();
+                npc.setName(new JobsData(this.plugin).getTopFarmer());
+                npc.spawn(loc);
+            }
+
+            if(npc.data().has("traveler")) {
+                Location loc = npc.getStoredLocation();
+                npc.despawn();
+                npc.setName(new JobsData(this.plugin).getTopTraveler());
                 npc.spawn(loc);
             }
         }
