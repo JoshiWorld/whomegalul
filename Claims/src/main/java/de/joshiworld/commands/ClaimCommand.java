@@ -99,6 +99,10 @@ public class ClaimCommand implements CommandExecutor {
                 if(!this.luckPerms.hasPermissionGroup("claims.claims", player.getName())) return true;
                 showClaim(player);
                 break;
+            case "ignore":
+                if(!this.luckPerms.hasPermissionGroup("claims.claims", player.getName())) return true;
+                ignoreClaim(player);
+                break;
 
             // DEFAULT
             default:
@@ -125,6 +129,7 @@ public class ClaimCommand implements CommandExecutor {
         if(this.luckPerms.hasPermissionGroup("claims.claims", player.getName())) {
             player.sendMessage("§c/claim clear <player>");
             player.sendMessage("§c/claim showup");
+            player.sendMessage("§c/claim ignore");
         }
     }
 
@@ -219,6 +224,17 @@ public class ClaimCommand implements CommandExecutor {
             default:
                 player.sendMessage(this.plugin.getPrefix() + " §cDieser Flag existiert nicht!");
                 break;
+        }
+    }
+
+    // Ignore Claim
+    private void ignoreClaim(Player player) {
+        if(!this.plugin.getIgnoreList().contains(player)) {
+            this.plugin.getIgnoreList().add(player);
+            player.sendMessage(this.plugin.getPrefix() + " §aDu ignorierst jetzt Claims!");
+        } else {
+            this.plugin.getIgnoreList().remove(player);
+            player.sendMessage(this.plugin.getPrefix() + " §cDu ignorierst jetzt keine Claims mehr!");
         }
     }
 

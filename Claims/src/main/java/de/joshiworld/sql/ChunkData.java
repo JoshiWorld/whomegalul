@@ -48,7 +48,8 @@ public class ChunkData {
                 String[] array = all.substring(1, all.length()-1).split(", ");
 
                 for(String s : array) {
-                    finalList.add(Long.valueOf(s));
+                    //if(!s.equalsIgnoreCase(" "))
+                        finalList.add(Long.valueOf(s));
                 }
             });
 

@@ -43,6 +43,7 @@ public class PlayerQuitListener implements Listener {
     private void removePlayerFromAllLists(Player player) {
         if(this.plugin.getClaimList().containsKey(player)) this.plugin.getClaimList().remove(player);
         if(this.plugin.getVanishList().contains(player)) this.plugin.getVanishList().remove(player);
+        if(this.plugin.getIgnoreList().contains(player)) this.plugin.getIgnoreList().remove(player);
     }
 
     // Remove Claim Items

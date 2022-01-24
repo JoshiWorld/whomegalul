@@ -25,6 +25,7 @@ public final class Claims extends JavaPlugin {
 
     // ArrayLists & HashMaps
     private List<Player> vanishList = new ArrayList<>();
+    private List<Player> ignoreList = new ArrayList<>();
     private Map<Player, List<Long>> claimList = new HashMap<>();
 
     @Override
@@ -75,6 +76,11 @@ public final class Claims extends JavaPlugin {
     // Get Vanish-List
     public List<Player> getVanishList() {
         return vanishList;
+    }
+
+    // Get Ignore-List
+    public List<Player> getIgnoreList() {
+        return ignoreList;
     }
 
     // Get Claim List

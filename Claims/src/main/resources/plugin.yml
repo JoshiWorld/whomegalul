@@ -15,3 +15,6 @@ commands:
     description: Vanish player
     usage: </vanish>
     aliases: [v]
+  top:
+    description: Top Player
+    usage: </top>
