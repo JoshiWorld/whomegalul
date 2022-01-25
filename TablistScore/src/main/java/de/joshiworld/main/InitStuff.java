@@ -2,6 +2,7 @@ package de.joshiworld.main;
 
 import de.joshiworld.commands.MaintenanceCommand;
 import de.joshiworld.commands.MoneyCommand;
+import de.joshiworld.commands.PayCommand;
 import de.joshiworld.commands.WhitelistCommand;
 import de.joshiworld.listeners.EnderChestListener;
 import de.joshiworld.listeners.PlayerChatListener;
@@ -32,6 +33,7 @@ public class InitStuff {
         addCommand("money", new MoneyCommand(this.plugin));
         addCommand("globallist", new WhitelistCommand(this.plugin));
         addCommand("maintenance", new MaintenanceCommand(this.plugin));
+        addCommand("pay", new PayCommand(this.plugin));
     }
 
 
