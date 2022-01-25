@@ -10,31 +10,44 @@ import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.TabExecutor;
 import net.md_5.bungee.api.scheduler.ScheduledTask;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class tpa extends Command implements TabExecutor {
+
     public tpa() {
         super("tpa");
     }
-
+    HashMap<String,Long> cooldown = new HashMap<>();
+    Long currenttime;
+    final int cooldownTime = 30;
+    Bungee plugin = Bungee.getInstance();
     @Override
+
     public void execute(CommandSender sender, String[] args) {
-        Bungee plugin = Bungee.getInstance();
+        currenttime = System.currentTimeMillis() / 1000;
+
         if (!(sender instanceof ProxiedPlayer)) return;
         ProxiedPlayer player = (ProxiedPlayer) sender;
+
         if(args.length!=1){
             player.sendMessage(new TextComponent(ChatColor.RED.toString()+"Please select a Player"));
             return;
         }
+
         ProxiedPlayer target = ProxyServer.getInstance().getPlayer(args[0]);
-        if(!(target.isConnected())){
+        if(!(target.isConnected())||target.equals(player)){
             player.sendMessage(new TextComponent(ChatColor.RED.toString()+"Player not found"));
             return;
         }
+        if(hascooldown(player))return;
+
         plugin.getTpa().put(player,target);
         player.sendMessage(new TextComponent(ChatColor.GOLD.toString()+ "Teleport request sent to "+ChatColor.RED.toString()+target));
         target.sendMessage(new TextComponent(ChatColor.RED.toString()+ player + ChatColor.GOLD.toString() + " has requested to teleport to you"));
@@ -60,4 +73,25 @@ public class tpa extends Command implements TabExecutor {
         players.clear(); // get rid of some space & memory
         return results;
     }
+
+
+    public boolean hascooldown(ProxiedPlayer player) {
+        String name = player.getName();
+        if(!(cooldown.containsKey(name))){
+            cooldown.put(name,currenttime);
+            return false;
+        }
+        if(currenttime - cooldown.get(name)  < 30) {
+            plugin.getLogger().info(String.valueOf(cooldown.get(name)));
+            plugin.getLogger().info(String.valueOf(currenttime));
+            Long remaining = 30 - (currenttime - cooldown.get(name));
+            player.sendMessage(new TextComponent(ChatColor.RED + "You need to wait "+ ChatColor.GOLD + remaining + " seconds" + ChatColor.RED + " to use that command again." ));
+        return true;
+        }else{
+            cooldown.put(name,currenttime);
+            return false;
+        }
+    }
 }
+
+
