@@ -43,13 +43,21 @@ public class onPluginMessage implements Listener {
         String serverName = sender.getInfo().getName();
         String homeName= in.readUTF();
         String test = in.readUTF();
+        ProxiedPlayer player = ProxyServer.getInstance().getPlayer(UUID.fromString(uuid));
         List<String> homes= data.getHomeNames(uuid);
+        if(data.searchHome(uuid,homeName)){
+            player.sendMessage(new TextComponent(ChatColor.GOLD + homeName + ChatColor.RED + " already exists. Use /deletehome to remove it"));
+            return;
+        }
+
         if(homes.size()>=3){
-            ProxiedPlayer player = ProxyServer.getInstance().getPlayer(UUID.fromString(uuid));
-            player.sendMessage(new TextComponent(ChatColor.RED.toString()+ "You already have 3 Homes"));
+            player.sendMessage(new TextComponent(ChatColor.RED + "You already have 3 Homes"));
             return;
         }
         data.createHome(uuid,homeName,serverName,test);
+        player.sendMessage(new TextComponent(ChatColor.GREEN.toString()+"Created new home: "+homeName));
+
+
     }
     public void onServerswitch(ByteArrayDataInput in,String uuid){
         String server= in.readUTF();

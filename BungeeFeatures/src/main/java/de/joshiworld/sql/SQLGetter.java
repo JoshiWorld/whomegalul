@@ -214,13 +214,15 @@ public class SQLGetter {
         }
         return "Error";
     }
-    public void updateUsername(String uuid){
+
+    public void updateUsername(String username,String uuid){
         connectPaperSQL();
         try{
             if(isNewUser(uuid)) return;
             PreparedStatement ps;
-            ps = Paperplugin.SQL.getConnection().prepareStatement("UPDATE USERNAME FROM Userlist WHERE UUID=?");
-            ps.setString(1, uuid);
+            ps = Paperplugin.SQL.getConnection().prepareStatement("UPDATE Userlist SET USERNAME = ? WHERE UUID=?");
+            ps.setString(1, username);
+            ps.setString(2, uuid);
             ps.executeUpdate();
         }catch(SQLException e){
             e.printStackTrace();

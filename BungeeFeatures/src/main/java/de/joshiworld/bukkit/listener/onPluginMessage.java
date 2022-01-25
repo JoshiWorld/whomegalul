@@ -10,9 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class onPluginMessage implements PluginMessageListener {
@@ -45,7 +43,7 @@ public class onPluginMessage implements PluginMessageListener {
         String playerID = in.readUTF();
         Location location = StringToLocation(in.readUTF());
         Bukkit.getLogger().info(playerID + " | "+ location);
-        if(Bukkit.getPlayer(UUID.fromString(playerID)) == null)return;
+        if(!(Objects.requireNonNull(Bukkit.getPlayer(UUID.fromString(playerID))).isOnline()))return;
         Player User = Bukkit.getPlayer(UUID.fromString(playerID));
         User.teleport(location);
     }

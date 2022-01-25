@@ -41,6 +41,7 @@ public class home extends Command implements TabExecutor {
             if(results.next()){
                 server = results.getString("Server");
                 templocation = results.getString("LOCATION");
+                player.sendMessage(new TextComponent(ChatColor.GOLD + "Teleporting to Home: " + home));
             }
         } catch (SQLException e) {
             e.printStackTrace();
