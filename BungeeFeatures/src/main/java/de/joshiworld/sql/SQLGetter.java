@@ -16,11 +16,6 @@ public class SQLGetter {
         this.plugin = plugin;
     }
 
-    private Paper Paperplugin;
-    public SQLGetter(Paper plugin){
-        this.Paperplugin = plugin;
-    }
-
     public void createTable(){
         PreparedStatement ps;
         try{
@@ -111,18 +106,6 @@ public class SQLGetter {
         }
         return homeNames;
     }
-    public ResultSet getUser(String username){
-        connectSQL();
-        try{
-            PreparedStatement ps;
-            ps = plugin.SQL.getConnection().prepareStatement("SELECT * FROM Userlist WHERE USERNAME LIKE ?");
-            ps.setString(1, username);
-            return ps.executeQuery();
-        }catch(SQLException e){
-            e.printStackTrace();
-        }
-        return null;
-    }
     public void deleteallHomes(String server){
         connectSQL();
         try{
@@ -134,102 +117,6 @@ public class SQLGetter {
             e.printStackTrace();
         }
     }
-    public void banUser(String uuid,String reason){
-        connectSQL();
-        try{
-            PreparedStatement ps;
-            ps = ps = plugin.SQL.getConnection().prepareStatement("UPDATE `Userlist` SET `BANNED` = '01',`DESCRIPTION` = ? WHERE `Userlist`.`UUID` = ?");
-            ps.setString(1, reason);
-            ps.setString(2, uuid);
-            ps.executeUpdate();
-        }catch(SQLException e){
-            e.printStackTrace();
-        }
-    }
-    public void unbanUser(String uuid){
-        connectSQL();
-        try{
-            PreparedStatement ps;
-            ps = ps = plugin.SQL.getConnection().prepareStatement("UPDATE `Userlist` SET `BANNED` = '0',`DESCRIPTION` = '' WHERE `Userlist`.`UUID` = ?");
-            ps.setString(1, uuid);
-            ps.executeUpdate();
-        }catch(SQLException e){
-            e.printStackTrace();
-        }
-    }
-    //---Paper
-    public boolean isNewUser(String uuid){
-        connectPaperSQL();
-        try{
-            PreparedStatement ps;
-            ps = ps = Paperplugin.SQL.getConnection().prepareStatement("SELECT * FROM Userlist WHERE UUID=?");
-            ps.setString(1, uuid);
-            ResultSet results = ps.executeQuery();
-            return !results.next();
-        }catch(SQLException e){
-            e.printStackTrace();
-        }
-        return false;
-    }
-    public void addUser(String uuid,String userame){
-        connectPaperSQL();
-        try{
-            PreparedStatement ps;
-            if(isNewUser(uuid)){
-                ps = Paperplugin.SQL.getConnection().prepareStatement("INSERT IGNORE INTO Userlist" +
-                        " (UUID, USERNAME, BANNED) VALUES (?,?,?)");
-                ps.setString(1,uuid);
-                ps.setString(2,userame);
-                ps.setString(3,"0");
-                ps.executeUpdate();
-            }
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-    }
-    public boolean isBanned(String uuid){
-        connectPaperSQL();
-        try{
-            PreparedStatement ps;
-            ps = ps = Paperplugin.SQL.getConnection().prepareStatement("SELECT BANNED FROM Userlist WHERE UUID=?");
-            ps.setString(1, uuid);
-            ResultSet results = ps.executeQuery();
-            if(!(results.next())) return false;
-            return results.getInt("Banned") != 0;
-        }catch(SQLException e){
-            e.printStackTrace();
-        }
-        return false;
-    }
-    public String getBanreason(String uuid){
-        connectPaperSQL();
-        try{
-            PreparedStatement ps;
-            ps = Paperplugin.SQL.getConnection().prepareStatement("SELECT DESCRIPTION FROM Userlist WHERE UUID=?");
-            ps.setString(1, uuid);
-            ResultSet results = ps.executeQuery();
-            if(results.next()) return results.getString("DESCRIPTION");
-        }catch(SQLException e){
-            e.printStackTrace();
-        }
-        return "Error";
-    }
-
-    public void updateUsername(String username,String uuid){
-        connectPaperSQL();
-        try{
-            if(isNewUser(uuid)) return;
-            PreparedStatement ps;
-            ps = Paperplugin.SQL.getConnection().prepareStatement("UPDATE Userlist SET USERNAME = ? WHERE UUID=?");
-            ps.setString(1, username);
-            ps.setString(2, uuid);
-            ps.executeUpdate();
-        }catch(SQLException e){
-            e.printStackTrace();
-        }
-    }
-
-
     //Sql check
     private void connectSQL(){
         try {
@@ -237,14 +124,6 @@ public class SQLGetter {
             plugin.SQL.connect();
         } catch (SQLException | ClassNotFoundException e) {
             plugin.getLogger().info("Database not connected");
-        }
-    }
-    private void connectPaperSQL(){
-        try {
-            if (Paperplugin.SQL.isConnected()) return;
-            Paperplugin.SQL.connect();
-        } catch (SQLException | ClassNotFoundException e) {
-            Paperplugin.getLogger().info("Database not connected");
         }
     }
 

@@ -1,6 +1,7 @@
 package de.joshiworld.bukkit.util;
 
 import de.joshiworld.bukkit.main.Paper;
+import de.joshiworld.bungee.main.Bungee;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.md_5.bungee.api.ChatColor;
@@ -13,10 +14,16 @@ import java.util.stream.Stream;
 
 public class MessageEmoteReplace {
     public Paper plugin;
-    Map<String,String>  emoteList;
+    public Bungee Bplugin;
+    public Map<String,String>  emoteList;
+    public MessageEmoteReplace(Bungee plugin) {
+        this.Bplugin = plugin;
+        this.emoteList = create();
+    }
+
     public MessageEmoteReplace(Paper plugin) {
         this.plugin = plugin;
-        emoteList = plugin.getEmoteList();
+        this.emoteList = create();
     }
     public Map<String,String> create(){
         return Stream.of(new String[][] {

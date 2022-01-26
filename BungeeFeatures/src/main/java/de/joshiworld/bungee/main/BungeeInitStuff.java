@@ -30,14 +30,13 @@ public class BungeeInitStuff {
         addCommand(new warp());
         addCommand(new warps());
         addCommand(new deletewarp());
-        addCommand(new bungeeban());
-        addCommand(new bungeeunban());
         addCommand(new tpa());
         addCommand(new tpdeny());
         addCommand(new deletehome());
         addCommand(new tpaccept());
         addCommand(new deleteserverhomes());
         addCommand(new msguser());
+        addCommand(new emotes());
     }
     private void addCommand(Command command){
         plugin.getProxy().getPluginManager().registerCommand(plugin, command);

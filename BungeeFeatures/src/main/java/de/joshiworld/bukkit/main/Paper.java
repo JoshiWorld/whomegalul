@@ -14,7 +14,6 @@ import java.util.Map;
 
 public final class Paper extends JavaPlugin implements Listener{
     public static Paper plugin;
-    public MySQL SQL;
     public SQLGetter data;
     public LuckPerms luckPerms;
     public static Paper getInstance(){
@@ -24,8 +23,6 @@ public final class Paper extends JavaPlugin implements Listener{
 
     public void onEnable() {
         plugin = this;
-        this.SQL = new MySQL();
-        this.data = new SQLGetter(this);
         new Paperinit(plugin).init();
         getLogger().info( "BukkitFeatures driver enabled successfully." );
 

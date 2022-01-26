@@ -6,7 +6,6 @@ import de.joshiworld.bukkit.commands.setwarp;
 import de.joshiworld.bukkit.listener.EmoteReplace;
 import de.joshiworld.bukkit.listener.npcInteract;
 import de.joshiworld.bukkit.listener.onPluginMessage;
-import de.joshiworld.bukkit.listener.onPrejoin;
 import de.joshiworld.bukkit.util.MessageEmoteReplace;
 import net.luckperms.api.LuckPermsProvider;
 import org.bukkit.Bukkit;
@@ -25,7 +24,6 @@ public class Paperinit {
     public void init() {
         initCommands();
         initListeners();
-        SQLinit();
         plugin.luckPerms = LuckPermsProvider.get();
         plugin.getServer().getMessenger().registerIncomingPluginChannel( plugin, "BungeeCord",new onPluginMessage());
         plugin.getServer().getMessenger().registerOutgoingPluginChannel(plugin, "BungeeCord");
@@ -41,7 +39,7 @@ public class Paperinit {
         addListener(new EmoteReplace());
         addListener(new npcInteract());
         plugin.getServer().getMessenger().registerIncomingPluginChannel( plugin, "BungeeCord",new onPluginMessage());
-        addListener(new onPrejoin());
+        //addListener(new onPrejoin());
     }
     // Add Listener
     private void addListener(Listener listener) {
@@ -52,17 +50,4 @@ public class Paperinit {
     private void addCommand(String command, CommandExecutor commandExecutor) {
         this.plugin.getCommand(command).setExecutor(commandExecutor);
     }
-
-    public void SQLinit(){
-        try {
-            plugin.SQL.connect();
-        } catch (SQLException | ClassNotFoundException e) {
-            plugin.getLogger().info("Database not connected");
-        }
-        if(plugin.SQL.isConnected()){
-            plugin.getLogger().info("Database is connected");
-        }
-    }
-
-
 }
