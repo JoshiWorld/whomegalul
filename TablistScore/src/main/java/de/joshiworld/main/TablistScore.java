@@ -2,6 +2,7 @@ package de.joshiworld.main;
 
 import de.joshiworld.scoreboard.Score;
 import de.joshiworld.sql.MySQL;
+import de.joshiworld.sql.PlayerData;
 import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -67,9 +68,11 @@ public final class TablistScore extends JavaPlugin {
                 Bukkit.getOnlinePlayers().forEach(all -> {
                     Score score = new Score(all, plugin);
                     score.updateScore();
+                    PlayerData playerData = new PlayerData(all.getName(), plugin);
+                    playerData.setInventory(all.getInventory());
                 });
             }
-        }, 0, 20*5);
+        }, 0, 20*15);
     }
 
     private void stopUpdater() {
