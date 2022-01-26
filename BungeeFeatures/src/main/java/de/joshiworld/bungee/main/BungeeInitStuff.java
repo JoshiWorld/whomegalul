@@ -37,6 +37,7 @@ public class BungeeInitStuff {
         addCommand(new deletehome());
         addCommand(new tpaccept());
         addCommand(new deleteserverhomes());
+        addCommand(new msguser());
     }
     private void addCommand(Command command){
         plugin.getProxy().getPluginManager().registerCommand(plugin, command);

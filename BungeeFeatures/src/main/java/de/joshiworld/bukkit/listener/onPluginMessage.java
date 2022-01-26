@@ -42,7 +42,6 @@ public class onPluginMessage implements PluginMessageListener {
     private void onHomedata(ByteArrayDataInput in){
         String playerID = in.readUTF();
         Location location = StringToLocation(in.readUTF());
-        Bukkit.getLogger().info(playerID + " | "+ location);
         if(!(Objects.requireNonNull(Bukkit.getPlayer(UUID.fromString(playerID))).isOnline()))return;
         Player User = Bukkit.getPlayer(UUID.fromString(playerID));
         User.teleport(location);
@@ -51,8 +50,10 @@ public class onPluginMessage implements PluginMessageListener {
 
         Player tpPlayer = Bukkit.getPlayer(UUID.fromString(in.readUTF()));
         Player target = Bukkit.getPlayer(UUID.fromString(in.readUTF()));
-        if(!(tpPlayer.isOnline() || target.isOnline())) return;
-        tpPlayer.teleport(target.getLocation());
+
+        if(tpPlayer==null || target==null) return;
+        if(target.isOnline())tpPlayer.teleport(target.getLocation());
+
     }
 
 }

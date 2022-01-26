@@ -20,7 +20,7 @@ public class homes extends Command{
         ProxiedPlayer player = (ProxiedPlayer) sender;
         List<String> homeNames = Bungee.getInstance().data.getHomeNames(player.getUniqueId().toString());
         String homes = String.join(", ", homeNames);
-        player.sendMessage(new TextComponent(ChatColor.GOLD.toString()+"Available Homes: " + homes));
+        player.sendMessage(new TextComponent(ChatColor.GOLD+"Available Homes: " + homes));
     }
 
 

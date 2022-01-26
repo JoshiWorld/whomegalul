@@ -3,7 +3,9 @@ package de.joshiworld.bungee.commands;
 import de.joshiworld.api.LuckPermsAPI;
 import de.joshiworld.bungee.main.Bungee;
 import de.joshiworld.sql.SQLGetter;
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 
@@ -20,10 +22,13 @@ public class bungeeunban extends Command {
     public void execute(CommandSender sender, String[] args) {
         if(!(sender instanceof ProxiedPlayer)) return;
         ProxiedPlayer player = (ProxiedPlayer) sender;
-        if(args.length == 0 || !(luckPerms.hasPermissionGroup("bungeefeatures.ban",player.getUniqueId()))) return;
+        if(args.length != 1 || !(luckPerms.hasPermissionGroup("bungeefeatures.ban",player.getUniqueId()))) return;
         try {
             ResultSet result = Bungee.getInstance().data.getUser(args[0]);
-            if(!(result.next()))return;
+            if(!(result.next())){
+                sender.sendMessage(new TextComponent(ChatColor.RED + "Player not found"));
+                return;
+            }
             String uuid = result.getString("UUID");
             SQLGetter data = Bungee.getInstance().data;
             data.unbanUser(uuid);

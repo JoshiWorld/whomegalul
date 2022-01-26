@@ -26,7 +26,7 @@ public class warp extends Command implements TabExecutor {
         String uuid="";
 
         if(args.length != 1){
-            player.sendMessage(new TextComponent(ChatColor.RED.toString()+"Usage /warp <warpname>"));
+            player.sendMessage(new TextComponent(ChatColor.RED +"Usage /warp <warpname>"));
             return;
         }
         String warpName = args[0];

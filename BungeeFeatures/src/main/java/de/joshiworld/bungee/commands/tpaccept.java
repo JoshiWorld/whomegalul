@@ -20,7 +20,6 @@ public class tpaccept extends Command {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if (!(sender instanceof ProxiedPlayer)) return;
         ProxiedPlayer target = (ProxiedPlayer) sender;
 
         HashMap<ProxiedPlayer,ProxiedPlayer> tpa = Bungee.getInstance().getTpa();

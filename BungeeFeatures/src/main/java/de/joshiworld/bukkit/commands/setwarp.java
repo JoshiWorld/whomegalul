@@ -16,12 +16,9 @@ public class setwarp implements CommandExecutor {
         if(!((cmd.getName().equals("setwarp"))&&(sender instanceof Player))) return true;
         Player player = (Player) sender;
         String loc = player.getLocation().serialize().toString();
-
         if(args.length != 1 && !(luckPerms.hasPermissionGroup("bungeefeatures.warp",player.getUniqueId()))) return true;
-
         String warpName = args[0];
         Paper.sendCustomData("setwarp",player,warpName,loc);
-
         return true;
     }
 }

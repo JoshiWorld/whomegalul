@@ -50,7 +50,6 @@ public class home extends Command implements TabExecutor {
             player.connect(ProxyServer.getInstance().getServerInfo(server));
 
         final String location = templocation;
-        Bungee.getInstance().getLogger().info(location);
         //add delay for server switch
         ProxyServer.getInstance().getScheduler().schedule(Bungee.getInstance(), new Runnable() {
             public void run() {

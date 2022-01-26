@@ -20,7 +20,6 @@ public class setportal implements CommandExecutor {
         String server = args[0];
         NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, server);
         npc.spawn(loc);
-
         return true;
     }
 }

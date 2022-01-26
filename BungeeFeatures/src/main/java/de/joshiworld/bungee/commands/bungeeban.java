@@ -3,6 +3,7 @@ package de.joshiworld.bungee.commands;
 import de.joshiworld.api.LuckPermsAPI;
 import de.joshiworld.bungee.main.Bungee;
 import de.joshiworld.sql.SQLGetter;
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -27,7 +28,10 @@ public class bungeeban extends Command {
 
         try {
             ResultSet result = Bungee.getInstance().data.getUser(args[0]);
-            if(!(result.next()))return;
+            if(!(result.next())){
+                sender.sendMessage(new TextComponent(ChatColor.RED + "Player not found"));
+                return;
+            }
             String uuid = result.getString("UUID");
             SQLGetter data = Bungee.getInstance().data;
             ProxiedPlayer bannedUser = ProxyServer.getInstance().getPlayer(UUID.fromString(uuid));
@@ -39,12 +43,7 @@ public class bungeeban extends Command {
                 }
             }
             data.banUser(uuid,Banreason);
-            if(bannedUser.isConnected())
-                bannedUser.disconnect(new TextComponent(Banreason));
-            if(!(sender instanceof ProxiedPlayer)){
-                Bungee.getInstance().getLogger().info("Banned User: "+args[0]);
-                return;
-            }
+            if(bannedUser.isConnected()) bannedUser.disconnect(new TextComponent(Banreason));
             sender.sendMessage(new TextComponent("Banned User: "+args[0]));
 
         } catch (SQLException e) {

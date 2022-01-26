@@ -20,6 +20,6 @@ public class warps extends Command {
         ProxiedPlayer player = (ProxiedPlayer) sender;
         List<String> warpNames = Bungee.getInstance().data.getHomeNames("warp");
         String homes = String.join(", ", warpNames);
-        player.sendMessage(new TextComponent(ChatColor.GOLD.toString()+"Available Warps: " + homes));
+        player.sendMessage(new TextComponent(ChatColor.GOLD +"Available Warps: " + homes));
     }
 }

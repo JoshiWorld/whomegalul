@@ -25,10 +25,10 @@ public class deletewarp extends Command {
 
         if(Bungee.getInstance().data.searchHome("warp",args[0])){
             Bungee.getInstance().data.deleteHome("warp",args[0]);
-            player.sendMessage(new TextComponent(ChatColor.RED.toString()+"Warp deleted Successfully"));
+            player.sendMessage(new TextComponent(ChatColor.RED+"Warp deleted Successfully"));
             return;
         }
-        player.sendMessage(new TextComponent(ChatColor.RED.toString()+"Could not find warp with given name"));
+        player.sendMessage(new TextComponent(ChatColor.RED+"Could not find warp with given name"));
 
     }
 }

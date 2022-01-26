@@ -32,7 +32,7 @@ public class tpdeny extends Command {
 
         Bungee.getInstance().getTpa().remove(player);
         Bungee.getInstance().getscheduleMap().get(player).cancel();
-        player.sendMessage(new TextComponent(ChatColor.GOLD.toString()+"Teleport request denied"));
-        target.sendMessage(new TextComponent(ChatColor.GOLD.toString()+"Teleport request denied"));
+        player.sendMessage(new TextComponent(ChatColor.GOLD +"Teleport request denied"));
+        target.sendMessage(new TextComponent(ChatColor.GOLD +"Teleport request denied"));
     }
 }

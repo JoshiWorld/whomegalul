@@ -32,28 +32,23 @@ public class tpa extends Command implements TabExecutor {
 
     public void execute(CommandSender sender, String[] args) {
         currenttime = System.currentTimeMillis() / 1000;
-
         if (!(sender instanceof ProxiedPlayer)) return;
         ProxiedPlayer player = (ProxiedPlayer) sender;
-
         if(args.length!=1){
             player.sendMessage(new TextComponent(ChatColor.RED.toString()+"Please select a Player"));
             return;
         }
-
         ProxiedPlayer target = ProxyServer.getInstance().getPlayer(args[0]);
-        if(!(target.isConnected())||target.equals(player)){
-            player.sendMessage(new TextComponent(ChatColor.RED.toString()+"Player not found"));
+        if((target==null)||target.equals(player)){
+            player.sendMessage(new TextComponent(ChatColor.RED+"Player not found"));
             return;
         }
         if(hascooldown(player))return;
-
         plugin.getTpa().put(player,target);
-        player.sendMessage(new TextComponent(ChatColor.GOLD.toString()+ "Teleport request sent to "+ChatColor.RED.toString()+target));
-        target.sendMessage(new TextComponent(ChatColor.RED.toString()+ player + ChatColor.GOLD.toString() + " has requested to teleport to you"));
-        target.sendMessage(new TextComponent(ChatColor.GOLD.toString()+"To teleport, type " + ChatColor.RED.toString() + " /tpaccept"));
-        target.sendMessage(new TextComponent(ChatColor.GOLD.toString()+"To deny this request, type" + ChatColor.RED.toString() + " /tpdeny"));
-
+        player.sendMessage(new TextComponent(ChatColor.GOLD+ "Teleport request sent to "+ChatColor.RED + target));
+        target.sendMessage(new TextComponent(ChatColor.RED + player.getName() + ChatColor.GOLD + " has requested to teleport to you"));
+        target.sendMessage(new TextComponent(ChatColor.GOLD+"To teleport, type " + ChatColor.RED + " /tpaccept"));
+        target.sendMessage(new TextComponent(ChatColor.GOLD+"To deny this request, type" + ChatColor.RED + " /tpdeny"));
         ScheduledTask tpaSchedule = ProxyServer.getInstance().getScheduler().schedule(Bungee.getInstance(), new Runnable() {
             public void run() {
                 Bungee.getInstance().getTpa().remove(player);
@@ -70,7 +65,7 @@ public class tpa extends Command implements TabExecutor {
         List<ProxiedPlayer> players = ProxyServer.getInstance().getPlayers().stream().filter(player -> player.getName().startsWith(args[0])).collect(Collectors.toList());
         List<String> results = new ArrayList<>();
         players.forEach(player -> results.add(player.getName()));
-        players.clear(); // get rid of some space & memory
+        players.clear();
         return results;
     }
 
