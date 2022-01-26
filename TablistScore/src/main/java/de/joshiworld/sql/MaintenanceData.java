@@ -37,6 +37,6 @@ public class MaintenanceData {
     // Set Whitelist
     public void setMaintenance(boolean maintenance) {
         int list = maintenance ? 1 : 0;
-        this.plugin.getMySQL().update("UPDATE wartung SET WARTUNG = '" + list + ";");
+        this.plugin.getMySQL().update("UPDATE wartung SET WARTUNG = '" + list + "' WHERE WAIT='server';");
     }
 }
