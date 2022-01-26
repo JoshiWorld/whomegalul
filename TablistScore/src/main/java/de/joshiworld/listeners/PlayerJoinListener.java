@@ -28,7 +28,13 @@ public class PlayerJoinListener implements Listener {
         PlayerData playerData = new PlayerData(player.getName(), this.plugin);
 
         if(!playerData.playerExists()) playerData.createPlayer();
-        getInventory(player, playerData);
+
+        Bukkit.getScheduler().scheduleAsyncDelayedTask(this.plugin, new Runnable() {
+            @Override
+            public void run() {
+                getInventory(player, playerData);
+            }
+        }, 20L);
 
         Bukkit.getOnlinePlayers().forEach(all -> {
             Score score = new Score(all, this.plugin);
