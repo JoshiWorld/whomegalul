@@ -138,7 +138,7 @@ public final class Claims extends JavaPlugin {
     }
 
     private void startUpdater() {
-        this.updater = Bukkit.getScheduler().scheduleAsyncRepeatingTask(this.plugin, new Runnable() {
+        this.updater = Bukkit.getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable() {
             @Override
             public void run() {
                 refreshAllNpcs();
