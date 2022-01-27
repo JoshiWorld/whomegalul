@@ -29,6 +29,7 @@ public class PlayerJoinListener implements Listener {
 
         if(!playerData.playerExists()) playerData.createPlayer();
 
+        /*
         Bukkit.getScheduler().scheduleAsyncDelayedTask(this.plugin, new Runnable() {
             @Override
             public void run() {
@@ -36,6 +37,7 @@ public class PlayerJoinListener implements Listener {
                 putInMap(player);
             }
         }, 20L);
+        */
 
         Bukkit.getOnlinePlayers().forEach(all -> {
             Score score = new Score(all, this.plugin);

@@ -34,7 +34,8 @@ public class ChunkBlocks implements Listener {
         Long chunk = event.getBlock().getChunk().getChunkKey();
         PlayerData playerData = new PlayerData(player.getName(), this.plugin);
 
-        if(this.plugin.getIgnoreList().contains(player)) {
+        if(this.plugin.getIgnoreList().contains(player) || player.getWorld().getName().equalsIgnoreCase("farmwelt") ||
+                player.getWorld().getName().equalsIgnoreCase("farmwelt_nether") || player.getWorld().getName().equalsIgnoreCase("farmwelt_end")) {
             event.setCancelled(false);
             return;
         }
@@ -50,7 +51,8 @@ public class ChunkBlocks implements Listener {
         Long chunk = event.getBlock().getChunk().getChunkKey();
         PlayerData playerData = new PlayerData(player.getName(), this.plugin);
 
-        if(this.plugin.getIgnoreList().contains(player)) {
+        if(this.plugin.getIgnoreList().contains(player) || player.getWorld().getName().equalsIgnoreCase("farmwelt") ||
+                player.getWorld().getName().equalsIgnoreCase("farmwelt_nether") || player.getWorld().getName().equalsIgnoreCase("farmwelt_end")) {
             event.setCancelled(false);
             return;
         }
@@ -64,7 +66,8 @@ public class ChunkBlocks implements Listener {
         if(event.getClickedBlock() == null || event.getClickedBlock().getType().equals(Material.AIR)) return;
         Player player = event.getPlayer();
 
-        if(this.plugin.getIgnoreList().contains(player)) {
+        if(this.plugin.getIgnoreList().contains(player) || player.getWorld().getName().equalsIgnoreCase("farmwelt") ||
+                player.getWorld().getName().equalsIgnoreCase("farmwelt_nether") || player.getWorld().getName().equalsIgnoreCase("farmwelt_end")) {
             event.setCancelled(false);
             return;
         }

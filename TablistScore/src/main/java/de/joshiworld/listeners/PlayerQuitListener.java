@@ -24,10 +24,10 @@ public class PlayerQuitListener implements Listener {
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
 
-        setInventory(player);
+        //setInventory(player);
         updateTab();
         //Bukkit.getScheduler().cancelTask(this.plugin.getInventoryMap().get(player));
-        this.plugin.getInventoryMap().remove(player);
+        //this.plugin.getInventoryMap().remove(player);
 
         String message = "§7[§c-§7] " + ChatColor.translateAlternateColorCodes('&', this.luckperms.getGroupPrefix(player.getName())) + player.getName();
         event.setQuitMessage(message);
