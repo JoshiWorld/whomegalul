@@ -37,13 +37,13 @@ public class HolzListener implements Listener {
             case STRIPPED_JUNGLE_LOG:
             case STRIPPED_OAK_LOG:
             case STRIPPED_SPRUCE_LOG:
-                levelAPI.addXP(2.0);
+                levelAPI.addXP(1.0);
                 break;
             case CRIMSON_STEM:
             case STRIPPED_CRIMSON_STEM:
             case WARPED_STEM:
             case STRIPPED_WARPED_STEM:
-                levelAPI.addXP(3.0);
+                levelAPI.addXP(2.0);
                 break;
         }
     }
