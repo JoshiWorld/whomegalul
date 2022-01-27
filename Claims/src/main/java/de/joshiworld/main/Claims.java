@@ -1,11 +1,16 @@
 package de.joshiworld.main;
 
+import de.joshiworld.sql.JobsData;
 import de.joshiworld.sql.MySQL;
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.npc.NPC;
 import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.Score;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +28,8 @@ public final class Claims extends JavaPlugin {
     private Claims plugin;
     private LuckPerms luckperms;
 
+    private int updater;
+
     // ArrayLists & HashMaps
     private List<Player> vanishList = new ArrayList<>();
     private List<Player> ignoreList = new ArrayList<>();
@@ -33,6 +40,7 @@ public final class Claims extends JavaPlugin {
         this.plugin = this;
         connectSQL();
         new InitStuff(this.plugin).init();
+        startUpdater();
 
         this.plugin.getLogger().info(getPrefix() + " §aClaims loaded..");
     }
@@ -40,6 +48,7 @@ public final class Claims extends JavaPlugin {
     @Override
     public void onDisable() {
         this.mysql.close();
+        stopUpdater();
     }
 
 
@@ -86,5 +95,59 @@ public final class Claims extends JavaPlugin {
     // Get Claim List
     public Map<Player, List<Long>> getClaimList() {
         return claimList;
+    }
+
+    // ALL UPDATER
+    private void refreshAllNpcs() {
+        for(NPC npc : CitizensAPI.getNPCRegistry()) {
+            if(npc.data().has("holz")) {
+                Location loc = npc.getStoredLocation();
+                npc.despawn();
+                npc.setName(new JobsData(this.plugin).getTopLumber());
+                npc.spawn(loc);
+            }
+
+            if(npc.data().has("miner")) {
+                Location loc = npc.getStoredLocation();
+                npc.despawn();
+                npc.setName(new JobsData(this.plugin).getTopMiner());
+                npc.spawn(loc);
+            }
+
+            if(npc.data().has("hunter")) {
+                Location loc = npc.getStoredLocation();
+                npc.despawn();
+                npc.setName(new JobsData(this.plugin).getTopHunter());
+                npc.spawn(loc);
+            }
+
+            if(npc.data().has("farmer")) {
+                Location loc = npc.getStoredLocation();
+                npc.despawn();
+                npc.setName(new JobsData(this.plugin).getTopFarmer());
+                npc.spawn(loc);
+            }
+
+            if(npc.data().has("traveler")) {
+                Location loc = npc.getStoredLocation();
+                npc.despawn();
+                npc.setName(new JobsData(this.plugin).getTopTraveler());
+                npc.spawn(loc);
+            }
+        }
+    }
+
+    private void startUpdater() {
+        this.updater = Bukkit.getScheduler().scheduleAsyncRepeatingTask(this.plugin, new Runnable() {
+            @Override
+            public void run() {
+                refreshAllNpcs();
+            }
+        }, 0, 20*60);
+    }
+
+    private void stopUpdater() {
+        if(Bukkit.getScheduler().isCurrentlyRunning(this.updater))
+            Bukkit.getScheduler().cancelTask(this.updater);
     }
 }
