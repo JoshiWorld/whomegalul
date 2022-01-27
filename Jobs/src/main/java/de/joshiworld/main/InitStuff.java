@@ -35,8 +35,8 @@ public class InitStuff {
         addListener(new HolzListener(this.plugin));
         addListener(new MinerListener(this.plugin));
         addListener(new HunterListener(this.plugin));
-        addListener(new FarmerListener(this.plugin));
-        addListener(new TravelerListener(this.plugin));
+        //addListener(new FarmerListener(this.plugin));
+        //addListener(new TravelerListener(this.plugin));
     }
 
 

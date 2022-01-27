@@ -48,6 +48,12 @@ public class FlagListener implements Listener {
         Player player = (Player) event.getPlayer();
         PlayerData playerDataFromChunk = new PlayerData(new ChunkData(player.getLocation().getChunk().getChunkKey(), this.plugin).lookupChunkOwner(), this.plugin);
 
+        if(player.getWorld().getName().equalsIgnoreCase("farmwelt") ||
+                player.getWorld().getName().equalsIgnoreCase("farmwelt_nether") || player.getWorld().getName().equalsIgnoreCase("farmwelt_end")) {
+            event.setCancelled(false);
+            return;
+        }
+
         if(new PlayerData(player.getName(), this.plugin).getClaims().contains(player.getLocation().getChunk().getChunkKey()) ||
             playerDataFromChunk.getOtherClaims().stream().anyMatch(other -> new PlayerData(other, this.plugin).getClaims().contains(player.getLocation().getChunk().getChunkKey()))) {
             event.setCancelled(false);
