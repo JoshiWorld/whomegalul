@@ -241,7 +241,7 @@ public class ClaimCommand implements CommandExecutor {
     //<editor-fold defaultstate="collapsed" desc="/claim create">
     private void createClaim(Player player) {
         if(!finishClaim(player)) player.sendMessage(this.plugin.getPrefix() + " §cDu erstellst bereits ein Claim!");
-        else player.sendMessage(this.plugin.getPrefix() + " §aDu hast BLA neue Chunks geclaimed!");
+        //else player.sendMessage(this.plugin.getPrefix() + " §aDu hast BLA neue Chunks geclaimed!");
     }
 
     // Finish claim creation
@@ -287,6 +287,7 @@ public class ClaimCommand implements CommandExecutor {
 
         playerData.addClaims(chunks);
         this.plugin.getClaimList().remove(player);
+        player.sendMessage(this.plugin.getPrefix() + " §aDu hast " + chunks.size() + " neue Chunks geclaimed!");
     }
     //</editor-fold>
 
