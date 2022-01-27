@@ -33,6 +33,7 @@ public class PlayerJoinListener implements Listener {
             @Override
             public void run() {
                 getInventory(player, playerData);
+                putInMap(player);
             }
         }, 20L);
 
@@ -67,6 +68,16 @@ public class PlayerJoinListener implements Listener {
         player.getInventory().setArmorContents(playerData.getInventory().getArmorContents());
         player.getInventory().setContents(playerData.getInventory().getContents());
         player.getInventory().setStorageContents(playerData.getInventory().getStorageContents());
+    }
+
+    private void putInMap(Player player) {
+        plugin.getInventoryMap().put(player, Bukkit.getScheduler().scheduleAsyncRepeatingTask(plugin, new Runnable() {
+            @Override
+            public void run() {
+                PlayerData playerData = new PlayerData(player.getName(), plugin);
+                playerData.setInventory(player.getInventory());
+            }
+        }, 0, 20*10));
     }
 
 }
