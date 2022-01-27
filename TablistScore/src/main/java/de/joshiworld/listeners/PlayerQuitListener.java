@@ -26,6 +26,7 @@ public class PlayerQuitListener implements Listener {
 
         setInventory(player);
         updateTab();
+        Bukkit.getScheduler().cancelTask(this.plugin.getInventoryMap().get(player));
         this.plugin.getInventoryMap().remove(player);
 
         String message = "§7[§c-§7] " + ChatColor.translateAlternateColorCodes('&', this.luckperms.getGroupPrefix(player.getName())) + player.getName();
